@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xin.shaonianyou.forum.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="xin.shaonianyou.forum.entity.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="TINYINT"/>
+        <result column="point" property="point" jdbcType="BIGINT"/>
+        <result column="regdate" property="regDate" jdbcType="TIMESTAMP"/>
+        <result column="updatedate" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="profile" property="profile" jdbcType="VARCHAR"/>
+        <result column="avatar_location" property="avatar_location" jdbcType="VARCHAR"/>
+        <result column="is_administrator" property="is_administrator" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="xin.shaonianyou.forum.entity.User">
+        INSERT INTO user (name ,password,email,gender,point,regdate,updatedate,status,profile,avatar_location,is_administrator)
+        VALUES (#{name},#{password},#{email},#{gender}.#{point},#{regdate},#{updatedate},#{status},#{profile  },#{avatar_location},#{is_administrator})
+    </insert>
+
+</mapper>
