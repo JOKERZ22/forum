@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="keywords" content="fly,layui,前端社区">
   <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
+  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <!--<script src="layui/layui.all.js"></script>-->
   <link rel="stylesheet" href="/layui/css/layui.css">
   <link rel="stylesheet" href="/css/global.css">
 </head>
@@ -18,22 +20,17 @@
       <img src="/images/logo.png" alt="layui">
     </a>
     <ul class="layui-nav fly-nav layui-hide-xs">
-      <li class="layui-nav-item layui-this">
-        <a href="/"><i class="iconfont icon-jiaoliu"></i>交流</a>
+      <li class="layui-nav-item layui-this" th:each="m : ${session.moduleList}">
+        <a th:href="@{/post/module/{moduleid}(moduleid=${m.id})}" th:text="${m.display_name}"><i class="iconfont icon-jiaoliu"></i></a>
       </li>
-      <li class="layui-nav-item">
-        <a href="../case/case.html"><i class="iconfont icon-iconmingxinganli"></i>案例</a>
-      </li>
-      <li class="layui-nav-item">
-        <a href="http://www.layui.com/" target="_blank"><i class="iconfont icon-ui"></i>框架</a>
-      </li>
+      <!--<li class="layui-nav-item">        <a href="case/case.html"><i class="iconfont icon-iconmingxinganli"></i>案例</a>      </li>      <li class="layui-nav-item">        <a href="http://www.layui.com/" target="_blank"><i class="iconfont icon-ui"></i>框架</a>      </li>-->
     </ul>
 
     <ul class="layui-nav fly-nav-user">
       <!-- 未登入的状态 -->
-      <li class="layui-nav-item"><a class="iconfont icon-touxiang layui-hide-xs" th:href="@{'/login'}"></a></li>
-      <li class="layui-nav-item"><a th:href="@{'/login'}">登入</a></li>
-      <li class="layui-nav-item"><a th:href="@{/reg}">注册</a></li>
+      <li class="layui-nav-item"><a class="iconfont icon-touxiang layui-hide-xs" th:href="@{/tologin}"></a></li>
+      <li class="layui-nav-item"><a th:href="@{/tologin}">登入</a></li>
+      <li class="layui-nav-item"><a th:href="@{/toreg}">注册</a></li>
     </ul>
   </div>
 </div>
@@ -42,7 +39,7 @@
   <div class="fly-panel fly-panel-user" pad20>
     <div class="layui-tab layui-tab-brief" lay-filter="user">
       <ul class="layui-tab-title">
-        <li><a th:href="@{/login}">登入</a></li>
+        <li><a th:href="@{/tologin}">登入</a></li>
         <li class="layui-this">找回密码<!--重置密码--></li>
       </ul>
       <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">

@@ -1,7 +1,19 @@
 package xin.shaonianyou.forum.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import xin.shaonianyou.forum.entity.User;
+import xin.shaonianyou.forum.entity.vo.WeekUser;
+
+import java.util.List;
 
 public interface UserMapper {
-    public int insert(User user);
+
+    public int insertUser(User user);
+
+    public User selectUserByEmail(String email);
+
+    public User selectUserByUserName(String username);
+
+    public List<WeekUser> selectMostUserByWeek(@Param("weekstart") String weekstart, @Param("weekend") String weekend);
+
 }

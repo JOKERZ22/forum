@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="xin.shaonianyou.forum.mapper.UserMapper">
 
-    <resultMap id="BaseResultMap" type="xin.shaonianyou.forum.entity.User">
+    <!--<resultMap id="BaseResultMap" type="xin.shaonianyou.forum.entity.User">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
@@ -15,11 +15,35 @@
         <result column="profile" property="profile" jdbcType="VARCHAR"/>
         <result column="avatar_location" property="avatar_location" jdbcType="VARCHAR"/>
         <result column="is_administrator" property="is_administrator" jdbcType="TINYINT"/>
-    </resultMap>
+    </resultMap>-->
 
-    <insert id="insert" parameterType="xin.shaonianyou.forum.entity.User">
-        INSERT INTO user (name ,password,email,gender,point,regdate,updatedate,status,profile,avatar_location,is_administrator)
-        VALUES (#{name},#{password},#{email},#{gender}.#{point},#{regdate},#{updatedate},#{status},#{profile  },#{avatar_location},#{is_administrator})
+    <!--用户注册，只插入表中user,pasword,email三个字段-->
+    <insert id="insertUser" parameterType="User">
+        INSERT INTO user (name,password,email)
+        VALUES (#{name},#{password},#{email})
     </insert>
 
+    <!--通过用户邮箱查询用户-->
+    <select id="selectUserByEmail" parameterType="String" resultType="User">
+        SELECT * FROM user WHERE email = #{email}
+    </select>
+
+    <!--通过用户名查询用户-->
+    <select id="selectUserByUserName" parameterType="String" resultType="User">
+        SELECT * FROM user WHERE name = #{username}
+    </select>
+
+    <select id="selectMostUserByWeek" resultType="WeekUser">
+        SELECT COUNT(*)as frequency ,u.id,u.name,u.avatar_location
+        FROM post p,user u
+        WHERE p.user_id = u.id
+        <if test="weekstart != null and  weekstart != ''">
+            <![CDATA[ AND p.date_created >= STR_TO_DATE(#{weekstart},"%Y-%m-%d")]]>
+        </if>
+        <if test="weekend != null and  weekend != ''">
+            <![CDATA[ AND p.date_created <= STR_TO_DATE(#{weekend},"%Y-%m-%d")]]>
+        </if>
+        GROUP BY p.user_id
+        ORDER BY frequency DESC
+    </select>
 </mapper>

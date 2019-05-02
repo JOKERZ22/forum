@@ -4,42 +4,60 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import xin.shaonianyou.forum.entity.User;
-
+    /*
+    * 页面跳转控制
+    * */
 @Controller
 public class JumpController {
 
-    @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String index(){
-        return "index";
-    }
-
-    @RequestMapping(path = "/login", method = RequestMethod.GET)
-    public String login(){
+    @RequestMapping(path = "/tologin", method = RequestMethod.GET)
+    public String login() {
         return "user/login";
     }
 
-    @RequestMapping(path = "/reg", method = RequestMethod.GET)
-    public String reg(Model model){
-        model.addAttribute("user",new User());
+    @RequestMapping(path = "/toreg", method = RequestMethod.GET)
+    public String reg(Model model) {
         return "user/reg";
     }
 
-    @RequestMapping(path = "/userindex", method = RequestMethod.GET)
-    public String userindex(){
+    @RequestMapping(path = "/touserindex", method = RequestMethod.GET)
+    public String userindex() {
         return "user/index";
     }
 
-    @RequestMapping(path = "/postadd", method = RequestMethod.GET)
-    public String postadd(){
+    @RequestMapping(path = "/touserset", method = RequestMethod.GET)
+    public String userset() {
+        return "user/set";
+    }
+
+    @RequestMapping(path = "/tousermessage", method = RequestMethod.GET)
+    public String usermessage() {
+        return "user/message";
+    }
+
+    @RequestMapping(path = "/touserhome", method = RequestMethod.GET)
+    public String userhome() {
+        return "user/home";
+    }
+
+    @RequestMapping(path = "/topostadd", method = RequestMethod.GET)
+    public String postadd() {
         return "jie/add";
     }
 
-    @RequestMapping(path = "/forget", method = RequestMethod.GET)
-    public String forget(){
+    @RequestMapping(path = "/toforget", method = RequestMethod.GET)
+    public String forget() {
         return "user/forget";
     }
 
+    @RequestMapping(path = "/todetail", method = RequestMethod.GET)
+    public String detail() {
+        return "jie/detail";
+    }
 
+    @RequestMapping(path = "/tojieindex", method = RequestMethod.GET)
+    public String jieindex() {
+        return "jie/index";
+    }
 
 }

@@ -312,10 +312,10 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
   //签到
   var tplSignin = ['{{# if(d.signed){ }}'
     ,'<button class="layui-btn layui-btn-disabled">今日已签到</button>'
-    ,'<span>获得了<cite>{{ d.experience }}</cite>飞吻</span>'
+    ,'<span>获得了<cite>{{ d.experience }}</cite>积分</span>'
   ,'{{# } else { }}'
     ,'<button class="layui-btn layui-btn-danger" id="LAY_signin">今日签到</button>'
-    ,'<span>可获得<cite>{{ d.experience }}</cite>飞吻</span>'
+    ,'<span>可获得<cite>{{ d.experience }}</cite>积分</span>'
   ,'{{# } }}'].join('')
   ,tplSigninDay = '已连续签到<cite>{{ d.days }}</cite>天'
 
@@ -368,10 +368,10 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
       ,shade: 0.8
       ,shadeClose: true
       ,content: ['<div class="layui-text" style="padding: 20px;">'
-        ,'<blockquote class="layui-elem-quote">“签到”可获得社区飞吻，规则如下</blockquote>'
+        ,'<blockquote class="layui-elem-quote">“签到”可获得社区积分，规则如下</blockquote>'
         ,'<table class="layui-table">'
           ,'<thead>'
-            ,'<tr><th>连续签到天数</th><th>每天可获飞吻</th></tr>'
+            ,'<tr><th>连续签到天数</th><th>每天可获积分</th></tr>'
           ,'</thead>'
           ,'<tbody>'
             ,'<tr><td>＜5</td><td>5</td></tr>'
@@ -382,7 +382,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
         ,'</table>'
         ,'<ul>'
           ,'<li>中间若有间隔，则连续天数重新计算</li>'
-          ,'<li style="color: #FF5722;">不可利用程序自动签到，否则飞吻清零</li>'
+          ,'<li style="color: #FF5722;">不可利用程序自动签到，否则积分清零</li>'
         ,'</ul>'
       ,'</div>'].join('')
     });

@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="keywords" content="fly,layui,前端社区">
   <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
+  <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+  <!--<script src="layui/layui.all.js"></script>-->
   <link rel="stylesheet" href="/layui/css/layui.css">
   <link rel="stylesheet" href="/css/global.css">
 </head>
@@ -18,34 +20,17 @@
       <img src="/images/logo.png" alt="layui">
     </a>
     <ul class="layui-nav fly-nav layui-hide-xs">
-      <li class="layui-nav-item layui-this">
-        <a href="/"><i class="iconfont icon-jiaoliu"></i>交流</a>
+      <li class="layui-nav-item layui-this" th:each="m : ${session.moduleList}">
+        <a th:href="@{/post/module/{moduleid}(moduleid=${m.id})}" th:text="${m.display_name}"><i class="iconfont icon-jiaoliu"></i></a>
       </li>
-      <li class="layui-nav-item">
-        <a href="../case/case.html"><i class="iconfont icon-iconmingxinganli"></i>案例</a>
-      </li>
-      <li class="layui-nav-item">
-        <a href="http://www.layui.com/" target="_blank"><i class="iconfont icon-ui"></i>框架</a>
-      </li>
+      <!--<li class="layui-nav-item">        <a href="case/case.html"><i class="iconfont icon-iconmingxinganli"></i>案例</a>      </li>      <li class="layui-nav-item">        <a href="http://www.layui.com/" target="_blank"><i class="iconfont icon-ui"></i>框架</a>      </li>-->
     </ul>
 
     <ul class="layui-nav fly-nav-user">
       <!-- 未登入的状态 -->
-      <li class="layui-nav-item">
-        <a class="iconfont icon-touxiang layui-hide-xs" th:href="@{/login}"></a>
-      </li>
-      <li class="layui-nav-item">
-        <a th:href="@{/login}">登入</a>
-      </li>
-      <li class="layui-nav-item">
-        <a th:href="@{/reg}">注册</a>
-      </li>
-      <!--<li class="layui-nav-item layui-hide-xs">
-        <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
-      </li>
-      <li class="layui-nav-item layui-hide-xs">
-        <a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>
-      </li>-->
+      <li class="layui-nav-item"><a class="iconfont icon-touxiang layui-hide-xs" th:href="@{/tologin}"></a></li>
+      <li class="layui-nav-item"><a th:href="@{/tologin}">登入</a></li>
+      <li class="layui-nav-item"><a th:href="@{/toreg}">注册</a></li>
     </ul>
   </div>
 </div>
@@ -54,37 +39,37 @@
   <div class="fly-panel fly-panel-user" pad20>
     <div class="layui-tab layui-tab-brief" lay-filter="user">
       <ul class="layui-tab-title">
-        <li><a th:href="@{/login}">登入</a></li>
+        <li><a th:href="@{/tologin}">登入</a></li>
         <li class="layui-this">注册</li>
       </ul>
       <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
         <div class="layui-tab-item layui-show">
           <div class="layui-form layui-form-pane">
-            <form method="post" action="" th:action="@{/user/reg}" th:object="${user}">
+            <form class="layui-form" action="">
               <div class="layui-form-item">
-                <label for="L_email" class="layui-form-label">邮箱</label>
+                <label for="email" class="layui-form-label">邮箱</label>
                 <div class="layui-input-inline">
-                  <input type="text" id="L_email" name="email" required lay-verify="email" autocomplete="off" class="layui-input">
+                  <input type="text" id="email" name="email" required lay-verify="email" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">将会成为您唯一的登入名</div>
               </div>
               <div class="layui-form-item">
-                <label for="L_username" class="layui-form-label">昵称</label>
+                <label for="name" class="layui-form-label">昵称</label>
                 <div class="layui-input-inline">
-                  <input type="text" id="L_username" name="username" required lay-verify="required" autocomplete="off" class="layui-input">
+                  <input type="text" id="name" name="name" required lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item">
-                <label for="L_pass" class="layui-form-label">密码</label>
+                <label for="password" class="layui-form-label">密码</label>
                 <div class="layui-input-inline">
-                  <input type="password" id="L_pass" name="pass" required lay-verify="required" autocomplete="off" class="layui-input">
+                  <input type="password" id="password" name="password" required lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">6到16个字符</div>
               </div>
               <div class="layui-form-item">
-                <label for="L_repass" class="layui-form-label">确认密码</label>
+                <label for="repass" class="layui-form-label">确认密码</label>
                 <div class="layui-input-inline">
-                  <input type="password" id="L_repass" name="repass" required lay-verify="required" autocomplete="off" class="layui-input">
+                  <input type="password" id="repass" name="repass" required lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
               </div>
               <!--<div class="layui-form-item">
@@ -97,7 +82,7 @@
                 </div>
               </div>-->
               <div class="layui-form-item">
-                <button class="layui-btn" lay-submit lay-filter="reg" type="submit">立即注册</button>
+                <button id="submitBtn" type="button" class="layui-btn layui-btn-sm" lay-submit="" lay-filter="reg">立即注册</button>
               </div>
               <!--<div class="layui-form-item fly-form-app">
                 <span>或者直接使用社交账号快捷注册</span>
@@ -132,27 +117,33 @@
         fly: 'index'
     }).use('fly');
 
-    /*layui.use('form', function(){
+    layui.use('form', function () {
         var form = layui.form;
 
-        //监听提交
-        form.on('submit(reg)', function(data){
+        form.on('submit(reg)', function () {
+            var url = "[[@{/user/reg}]]";
+            var email = $("input[name=email]").val();
+            var name = $("input[name=name]").val();
+            var password = $("input[name=password]").val();
+
             $.ajax({
-                url:'../user/reg',
-                type:'POST',
-                data:data.field,
-                dataType:'JSON',
-                success:function(res){
-                    if(res.code=200){
-                        alert(res.msg);
+                url: url,
+                type: "post",
+                async: false,
+                data:{"email": email, "name":name,"password": password},
+                success: function (res) {
+                    console.log(res.message);
+                    if(res.message == 1) {
+                        location.href = "[[@{/login}]]";
+                    } else {
+                        layer.msg(res.message,{icon: 5});//失败的表情
+                        return;
                     }
-                    else
-                        alert(res.msg);
                 }
-            })
+            });
             return false;
         });
-    });*/
+    });
 </script>
 
 </body>

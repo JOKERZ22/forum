@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xin.shaonianyou.forum.mapper.PostMapper">
+
+    <!--插入帖子-->
+    <insert id="insert" parameterType="Post">
+        INSERT INTO post (title,body,user_id,category_id,module_id,date_created)
+        VALUES (#{title},#{body},#{user_id},#{category_id},#{module_id},#{date_created})
+    </insert>
+
+    <select id="selectAll" resultType="Post">
+        SELECT * FROM post t ORDER BY t.date_created DESC
+    </select>
+
+    <select id="selectByModule" resultType="Post" parameterType="int">
+        SELECT * FROM post t  WHERE t.module_id = #{moduleid} ORDER BY t.date_created DESC
+    </select>
+
+    <select id="selectByCategory" resultType="Post" parameterType="int">
+        SELECT * FROM post t  WHERE t.category_id = #{categoryid} ORDER BY t.date_created DESC
+    </select>
+
+    <select id="selectHotPostByWeek" resultType="Post">
+        SELECT * FROM post t
+        WHERE
+        <if test="weekstart != null and  weekstart != ''">
+            <![CDATA[t.date_created >= STR_TO_DATE(#{weekstart},"%Y-%m-%d")]]>
+        </if>
+        <if test="weekend != null and  weekend != ''">
+            <![CDATA[ and t.date_created <= STR_TO_DATE(#{weekend},"%Y-%m-%d")]]>
+        </if>
+        ORDER BY t.comment_count DESC
+        limit 10
+    </select>
+
+</mapper>
