@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Module implements Serializable {
-    private int id;
+    private long id;
     private String name;
     private String display_name;
     private String username;
@@ -12,11 +12,11 @@ public class Module implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

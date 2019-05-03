@@ -30,14 +30,13 @@ public class UserServiceImpl implements UserService {
         if (!(userMapper.selectUserByEmail(pageuser.getEmail()) == null || userMapper.selectUserByEmail(pageuser.getEmail()).equals(""))) {
             resultMap.put("message", "邮箱已被注册，请更换");
         } else if (!(userMapper.selectUserByUserName(pageuser.getName()) == null || userMapper.selectUserByUserName(pageuser.getName()).equals(""))) {
-            System.out.println(userMapper.selectUserByUserName(pageuser.getName()));
             resultMap.put("message", "用户名已存在，请更换");
         } else {
             //密码进行MD5加密
             pageuser.setPassword(DigestUtils.md5Hex(pageuser.getPassword()));
 
             //插入用户
-            int i = userMapper.insertUser(pageuser);
+            long i = userMapper.insertUser(pageuser);
             if (i < 1) {
                 resultMap.put("message", "注册失败");
             } else {
@@ -78,6 +77,58 @@ public class UserServiceImpl implements UserService {
         String weekstart = dateUtil.getWeekStart();
         String weekend = dateUtil.getWeekEnd();
         return userMapper.selectMostUserByWeek(weekstart,weekend);
+    }
+
+    @Override
+    public User selectById(long id) {
+        return userMapper.selectById(id);
+    }
+
+    //修改密码
+    @Override
+    public Map<String, String> repass(String currentpass, String newpass,User usersession) {
+
+        Map<String, String> resultMap = new HashMap<String, String>();
+        //查询当前用户
+        User currentUser = userMapper.selectById(usersession.getId());
+
+        if(currentpass == null || currentpass.equals("")){
+            resultMap.put("message","输入的当前密码为空！");
+        }else if(! (DigestUtils.md5Hex(currentpass).equals(currentUser.getPassword()) ) ){
+            resultMap.put("message","输入的当前密码错误，请确认密码！");
+        }else if(currentUser.getPassword().equals(DigestUtils.md5Hex(newpass))){
+            resultMap.put("message","未作任何修改");
+        }else {
+            long i = userMapper.updatePass(DigestUtils.md5Hex(newpass),usersession.getId());
+            if(i<1){
+                resultMap.put("message","修改失败");
+            }else {
+                resultMap.put("message","1");
+            }
+        }
+        return resultMap;
+    }
+
+    //修改用户资料
+    @Override
+    public Map<String, String> updateSection(User user) {
+
+        Map<String, String> resultMap = new HashMap<String, String>();
+
+        if (!(userMapper.selectUserByEmail(user.getEmail()) == null || userMapper.selectUserByEmail(user.getEmail()).equals(""))) {
+            resultMap.put("message", "邮箱已被注册，请更换");
+        } else if (!(userMapper.selectUserByUserName(user.getName()) == null || userMapper.selectUserByUserName(user.getName()).equals(""))) {
+            resultMap.put("message", "用户名已存在，请更换");
+        }else {
+            long i = userMapper.updateSection(user);
+            if (i < 1) {
+                resultMap.put("message", "修改失败");
+            } else {
+                resultMap.put("message", "1");
+            }
+        }
+
+        return resultMap;
     }
 
 }

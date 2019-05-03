@@ -8,18 +8,22 @@
         VALUES (#{title},#{body},#{user_id},#{category_id},#{module_id},#{date_created})
     </insert>
 
+    <!--查询所有-->
     <select id="selectAll" resultType="Post">
         SELECT * FROM post t ORDER BY t.date_created DESC
     </select>
 
-    <select id="selectByModule" resultType="Post" parameterType="int">
+    <!--查询某模块下的所有帖子-->
+    <select id="selectByModule" resultType="Post" parameterType="long">
         SELECT * FROM post t  WHERE t.module_id = #{moduleid} ORDER BY t.date_created DESC
     </select>
 
-    <select id="selectByCategory" resultType="Post" parameterType="int">
+    <!--查询某分类下的所有帖子-->
+    <select id="selectByCategory" resultType="Post" parameterType="long">
         SELECT * FROM post t  WHERE t.category_id = #{categoryid} ORDER BY t.date_created DESC
     </select>
 
+    <!--本周热议-->
     <select id="selectHotPostByWeek" resultType="Post">
         SELECT * FROM post t
         WHERE
@@ -32,5 +36,39 @@
         ORDER BY t.comment_count DESC
         limit 10
     </select>
+
+    <!--根据帖子Id查询帖子-->
+    <select id="selectById" resultType="Post" parameterType="long">
+        SELECT * FROM post WHERE id = #{postid}
+    </select>
+
+    <!--查询用户提问帖子，用于“用户中心”-->
+    <select id="selectByPost" parameterType="Post" resultType="Post">
+        SELECT * FROM post
+        WHERE 1=1
+        <if test="id !=0">
+           AND id = #{id}
+        </if>
+        <if test="user_id !=0">
+            AND user_id = #{user_id}
+        </if>
+        <if test="module_id !=0">
+            AND module_id = #{module_id}
+        </if>
+        <if test="category_id !=0">
+            AND category_id = #{category_id}
+        </if>
+        ORDER  BY date_created DESC
+    </select>
+
+    <!--根据用户ID查询其发帖总数-->
+    <select id="selsectCountByUserId" parameterType="long" resultType="long">
+        SELECT COUNT(id) as count
+        FROM post         WHERE  user_id = #{userid}
+    </select>
+
+    <update id="updateCommentCount" parameterType="long" >
+        UPDATE post SET comment_count = comment_count+1 WHERE id = #{postid}
+    </update>
 
 </mapper>

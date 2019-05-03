@@ -30,15 +30,15 @@
       <!-- 登入后的状态 -->
       <li class="layui-nav-item">
         <a class="fly-nav-avatar" href="javascript:;">
-          <cite class="layui-hide-xs">贤心</cite>
-          <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>
-          <i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>
+          <cite class="layui-hide-xs" th:text="${session.usersession.name}"></cite>
+          <!--<i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>-->
+          <!--<i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>-->
           <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
         </a>
         <dl class="layui-nav-child">
           <dd><a th:href="@{/touserset}"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
-          <dd><a th:href="@{/tousermessage}"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
-          <dd><a th:href="@{/touserhome}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a>
+          <!--<dd><a th:href="@{/tousermessage}"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>-->
+          <dd><a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a>
           </dd>
           <hr style="margin: 5px 0;">
           <dd><a th:href="@{/user/logout}" style="text-align: center;">退出</a></dd>
@@ -51,13 +51,13 @@
 <div class="layui-container fly-marginTop fly-user-main">
   <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="user">
     <li class="layui-nav-item">
-      <a th:href="@{/touserhome}">
+      <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}">
         <i class="layui-icon">&#xe609;</i>
         我的主页
       </a>
     </li>
     <li class="layui-nav-item">
-      <a th:href="@{/touserindex}">
+      <a th:href="@{/user/userindex}">
         <i class="layui-icon">&#xe612;</i>
         用户中心
       </a>
@@ -68,12 +68,7 @@
         基本设置
       </a>
     </li>
-    <li class="layui-nav-item">
-      <a th:href="@{/tousermessage}">
-        <i class="layui-icon">&#xe611;</i>
-        我的消息
-      </a>
-    </li>
+    <!--<li class="layui-nav-item">      <a th:href="@{/tousermessage}">        <i class="layui-icon">&#xe611;</i>        我的消息      </a>    </li>-->
   </ul>
 
   <div class="site-tree-mobile layui-hide">
@@ -93,46 +88,53 @@
         <li class="layui-this" lay-id="info">我的资料</li>
         <li lay-id="avatar">头像</li>
         <li lay-id="pass">密码</li>
-        <li lay-id="bind">帐号绑定</li>
+        <!--<li lay-id="bind">帐号绑定</li>-->
       </ul>
       <div class="layui-tab-content" style="padding: 20px 0;">
         <div class="layui-form layui-form-pane layui-tab-item layui-show">
-          <form method="post">
+          <form class="layui-form" action="">
             <div class="layui-form-item">
-              <label for="L_email" class="layui-form-label">邮箱</label>
+              <label for="email" class="layui-form-label">邮箱</label>
               <div class="layui-input-inline">
-                <input type="text" id="L_email" name="email" required lay-verify="email" autocomplete="off" value="" class="layui-input">
+                <input type="text" id="email" name="email" required lay-verify="email" autocomplete="off" value=""
+                       class="layui-input">
               </div>
-              <div class="layui-form-mid layui-word-aux">如果您在邮箱已激活的情况下，变更了邮箱，需<a href="activate.html" style="font-size: 12px; color: #4f99cf;">重新验证邮箱</a>。</div>
+              <!--<div class="layui-form-mid layui-word-aux">如果您在邮箱已激活的情况下，变更了邮箱，需<a href="activate.html"
+                                                                                 style="font-size: 12px; color: #4f99cf;">重新验证邮箱</a>。
+              </div>-->
             </div>
             <div class="layui-form-item">
-              <label for="L_username" class="layui-form-label">昵称</label>
+              <label for="name" class="layui-form-label">昵称</label>
               <div class="layui-input-inline">
-                <input type="text" id="L_username" name="username" required lay-verify="required" autocomplete="off" value="" class="layui-input">
+                <input type="text" id="name" name="name" required lay-verify="required" autocomplete="off"
+                       value="" class="layui-input">
               </div>
               <div class="layui-inline">
                 <div class="layui-input-inline">
-                  <input type="radio" name="sex" value="0" checked title="男">
-                  <input type="radio" name="sex" value="1" title="女">
+                  <input type="radio" name="gender" value="0" checked title="男">
+                  <input type="radio" name="gender" value="1" title="女">
                 </div>
               </div>
             </div>
             <div class="layui-form-item">
-              <label for="L_city" class="layui-form-label">城市</label>
+              <label for="address" class="layui-form-label">城市</label>
               <div class="layui-input-inline">
-                <input type="text" id="L_city" name="city" autocomplete="off" value="" class="layui-input">
+                <input type="text" id="address" name="address" autocomplete="off" value="" class="layui-input">
               </div>
             </div>
             <div class="layui-form-item layui-form-text">
-              <label for="L_sign" class="layui-form-label">签名</label>
-              <div class="layui-input-block">
-                <textarea placeholder="随便写些什么刷下存在感" id="L_sign"  name="sign" autocomplete="off" class="layui-textarea" style="height: 80px;"></textarea>
+              <label for="proflie" class="layui-form-label">签名</label>
+              <div class="layui-form-item layui-form-text">
+                <textarea placeholder="随便写些什么刷下存在感" id="proflie" name="proflie" autocomplete="off"
+                          class="layui-textarea"
+                          style="height: 80px;"></textarea>
               </div>
             </div>
             <div class="layui-form-item">
-              <button class="layui-btn" key="set-mine" lay-filter="*" lay-submit>确认修改</button>
+              <button id="updateBtn" type="button" class="layui-btn layui-btn-sm" lay-submit="" lay-filter="updatesection">确认修改</button>
             </div>
-          </div>
+          </form>
+        </div>
           
           <div class="layui-form layui-form-pane layui-tab-item">
             <div class="layui-form-item">
@@ -148,53 +150,53 @@
           </div>
           
           <div class="layui-form layui-form-pane layui-tab-item">
-            <form action="/user/repass" method="post">
+            <form class="layui-form" action="">
               <div class="layui-form-item">
-                <label for="L_nowpass" class="layui-form-label">当前密码</label>
+                <label for="currentpass" class="layui-form-label">当前密码</label>
                 <div class="layui-input-inline">
-                  <input type="password" id="L_nowpass" name="nowpass" required lay-verify="required" autocomplete="off" class="layui-input">
+                  <input type="password" id="currentpass" name="currentpass" required lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item">
-                <label for="L_pass" class="layui-form-label">新密码</label>
+                <label for="newpass" class="layui-form-label">新密码</label>
                 <div class="layui-input-inline">
-                  <input type="password" id="L_pass" name="pass" required lay-verify="required" autocomplete="off" class="layui-input">
+                  <input type="password" id="newpass" name="newpass" required lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">6到16个字符</div>
               </div>
               <div class="layui-form-item">
-                <label for="L_repass" class="layui-form-label">确认密码</label>
+                <label for="repass" class="layui-form-label">确认密码</label>
                 <div class="layui-input-inline">
-                  <input type="password" id="L_repass" name="repass" required lay-verify="required" autocomplete="off" class="layui-input">
+                  <input type="password" id="repass" name="repass" required lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
               </div>
               <div class="layui-form-item">
-                <button class="layui-btn" key="set-mine" lay-filter="*" lay-submit>确认修改</button>
+                <button id="repassBtn" type="button" class="layui-btn layui-btn-sm" lay-submit="" lay-filter="repass">确认修改</button>
               </div>
             </form>
           </div>
           
-          <div class="layui-form layui-form-pane layui-tab-item">
+         <!-- <div class="layui-form layui-form-pane layui-tab-item">
             <ul class="app-bind">
               <li class="fly-msg app-havebind">
                 <i class="iconfont icon-qq"></i>
                 <span>已成功绑定，您可以使用QQ帐号直接登录Fly社区，当然，您也可以</span>
                 <a href="javascript:;" class="acc-unbind" type="qq_id">解除绑定</a>
                 
-                <!-- <a href="" onclick="layer.msg('正在绑定微博QQ', {icon:16, shade: 0.1, time:0})" class="acc-bind" type="qq_id">立即绑定</a>
-                <span>，即可使用QQ帐号登录Fly社区</span> -->
+                &lt;!&ndash; <a href="" onclick="layer.msg('正在绑定微博QQ', {icon:16, shade: 0.1, time:0})" class="acc-bind" type="qq_id">立即绑定</a>
+                <span>，即可使用QQ帐号登录Fly社区</span> &ndash;&gt;
               </li>
               <li class="fly-msg">
                 <i class="iconfont icon-weibo"></i>
-                <!-- <span>已成功绑定，您可以使用微博直接登录Fly社区，当然，您也可以</span>
-                <a href="javascript:;" class="acc-unbind" type="weibo_id">解除绑定</a> -->
+                &lt;!&ndash; <span>已成功绑定，您可以使用微博直接登录Fly社区，当然，您也可以</span>
+                <a href="javascript:;" class="acc-unbind" type="weibo_id">解除绑定</a> &ndash;&gt;
                 
                 <a href="" class="acc-weibo" type="weibo_id"  onclick="layer.msg('正在绑定微博', {icon:16, shade: 0.1, time:0})" >立即绑定</a>
                 <span>，即可使用微博帐号登录Fly社区</span>
               </li>
             </ul>
           </div>
-        </div>
+        </div>-->
 
       </div>
     </div>
@@ -219,6 +221,80 @@ layui.config({
 }).extend({
   fly: 'index'
 }).use('fly');
+
+layui.use('form', function () {
+    var form = layui.form;
+
+    form.on('submit(updatesection)', function () {
+        var url = "[[@{/user/update}]]";
+        var email = $("input[name=email]").val();
+        var name = $("input[name=name]").val();
+        var gender = $('[name=gender]:checked').val();
+        var address = $("input[name=address]").val();
+        var proflie = $("textarea[name=proflie]").val();
+
+        $.ajax({
+            url: url,
+            type: "post",
+            async: false,
+            data:{"email": email, "name":name,"gender": gender,"address": address,"proflie": proflie},
+            success: function (res) {
+                console.log(res.message);
+                if(res.message == 1) {
+                    layer.msg("修改成功，即将跳转到登陆页面",{icon: 6},function () {
+                        location.href = "[[@{/tologin}]]";
+                    });//成功的表情
+                    return;
+                } else {
+                    layer.msg(res.message,{icon: 5});//失败的表情
+                    return;
+                }
+            }
+        });
+        return false;
+    });
+});
+
+
+layui.use('form', function () {
+    var form = layui.form;
+
+    form.on('submit(repass)', function () {
+        var url = "[[@{/user/repass}]]";
+        var currentpass = $("input[name=currentpass]").val();
+        var newpass = $("input[name=newpass]").val();
+        var repass = $("input[name=repass]").val();
+
+        if(repass != newpass ){
+            layer.msg("两次密码不一致",{icon: 5});//失败的表情
+            return false;
+        }
+        if(currentpass == repass ){
+            layer.msg("您未作任何修改",{icon: 5});//失败的表情
+            return false;
+        }
+
+        $.ajax({
+            url: url,
+            type: "post",
+            async: false,
+            data:{"currentpass": currentpass, "newpass":newpass},
+            success: function (res) {
+                console.log(res.message);
+                if(res.message == 1) {
+                    layer.msg("修改成功，即将跳转到登陆页面",{icon: 6},function () {
+                        location.href = "[[@{/tologin}]]";
+                    });//成功的表情
+                    return;
+                } else {
+                    layer.msg(res.message,{icon: 5});//失败的表情
+                    return;
+                }
+            }
+        });
+        return false;
+    });
+});
 </script>
 
 </body>

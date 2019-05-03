@@ -20,10 +20,10 @@ public class JumpController {
         return "user/reg";
     }
 
-    @RequestMapping(path = "/touserindex", method = RequestMethod.GET)
+    /*@RequestMapping(path = "/touserindex", method = RequestMethod.GET)
     public String userindex() {
         return "user/index";
-    }
+    }*/
 
     @RequestMapping(path = "/touserset", method = RequestMethod.GET)
     public String userset() {
@@ -35,10 +35,10 @@ public class JumpController {
         return "user/message";
     }
 
-    @RequestMapping(path = "/touserhome", method = RequestMethod.GET)
+    /*@RequestMapping(path = "/touserhome", method = RequestMethod.GET)
     public String userhome() {
         return "user/home";
-    }
+    }*/
 
     @RequestMapping(path = "/topostadd", method = RequestMethod.GET)
     public String postadd() {

@@ -120,7 +120,10 @@ layui.use('form', function () {
             success: function (res) {
                 console.log(res.message);
                 if(res.message == 1) {
-                    location.href = "[[@{/}]]";
+                    layer.msg("登陆成功",{icon: 6},function () {
+                        location.href = "[[@{/}]]";
+                    });//成功的表情
+                    return;
                 } else {
                     layer.msg(res.message,{icon: 5});//失败的表情
                     return;

@@ -16,6 +16,7 @@ public class User implements Serializable {
     private String proflie;                 //个人简介
     private String avatar_location;         //头像地址
     private Integer is_administrator;       //是否为管理员，默认为0，1-是
+    private String address;                 //所在地
 
     private static final long serialVersionUID = 1L;
 
@@ -115,6 +116,14 @@ public class User implements Serializable {
         this.is_administrator = is_administrator;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -129,6 +138,8 @@ public class User implements Serializable {
                 ", status=" + status +
                 ", proflie='" + proflie + '\'' +
                 ", avatar_location='" + avatar_location + '\'' +
+                ", is_administrator=" + is_administrator +
+                ", address='" + address + '\'' +
                 '}';
     }
 }

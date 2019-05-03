@@ -51,15 +51,15 @@
       <div th:if="${session.usersession} != null" >
           <li class="layui-nav-item">
             <a class="fly-nav-avatar" href="javascript:;">
-              <cite class="layui-hide-xs"></cite>
-              <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>
-              <i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>
+              <cite class="layui-hide-xs" th:text="${session.usersession.name}"></cite>
+              <!--<i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>-->
+              <!--<i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>-->
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
             </a>
             <dl class="layui-nav-child">
               <dd><a th:href="@{/touserset}"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
-              <dd><a th:href="@{/tousermessage}"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
-              <dd><a th:href="@{/touserhome}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
+              <!--<dd><a th:href="@{/tousermessage}"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>-->
+              <dd><a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
               <hr style="margin: 5px 0;">
               <dd><a th:href="@{/user/logout}" style="text-align: center;">退出</a></dd>
             </dl>
@@ -87,7 +87,7 @@
       <!-- 用户登入后显示 -->
 
         <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block" th:if="${session.usersession} != null" ><span class="fly-mid"></span></li>
-        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block" th:if="${session.usersession} != null" ><a th:href="@{/touserindex}">我发表的贴</a></li>
+        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block" th:if="${session.usersession} != null" ><a th:href="@{/user/userindex}">我发表的贴</a></li>
         <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block" th:if="${session.usersession} != null" ><a href="user/index.html#collection">我收藏的贴</a></li>
 
     </ul>
@@ -108,7 +108,7 @@
         </div>
         <ul class="fly-list">
           <li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -116,7 +116,7 @@
               <a th:href="@{/todetail}">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}}" link>
                 <cite>贤心</cite>
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
                 <i class="layui-badge fly-badge-vip">VIP3</i>
@@ -137,7 +137,7 @@
             </div>
           </li>
           <!--<li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -145,7 +145,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -168,7 +168,7 @@
             </div>
           </li>
           <li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -176,7 +176,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -199,7 +199,7 @@
             </div>
           </li>
           <li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -207,7 +207,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -251,15 +251,15 @@
 
         <ul class="fly-list">          
           <li th:each="x : ${postList}">
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${x.user_id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
               <a class="layui-badge" th:text="${x.category_id}"></a>
-              <a th:href="@{/postdetail/{postid}(postid=${x.id})}" th:text="${x.title}"></a>
+              <a th:href="@{/post/postdetail/{postid}(postid=${x.id})}" th:text="${x.title}"></a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${x.user_id})}" link>
                 <cite th:text="${x.user_id}"></cite>
                 <!--
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -279,7 +279,7 @@
             </div>
           </li>
           <!--<li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -287,7 +287,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;<i class="iconfont icon-renzheng" title="认证信息：XXX"></i>&ndash;&gt;
                 <i class="layui-badge fly-badge-vip">VIP3</i>
@@ -305,7 +305,7 @@
             </div>
           </li>
           <li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -313,7 +313,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -333,7 +333,7 @@
             </div>
           </li>
           <li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -341,7 +341,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -361,7 +361,7 @@
             </div>
           </li>
           <li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -369,7 +369,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -389,7 +389,7 @@
             </div>
           </li>
           <li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -397,7 +397,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -417,7 +417,7 @@
             </div>
           </li>
           <li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -425,7 +425,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -445,7 +445,7 @@
             </div>
           </li>
           <li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -453,7 +453,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -473,7 +473,7 @@
             </div>
           </li>
           <li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -481,7 +481,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -501,7 +501,7 @@
             </div>
           </li>
           <li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -509,7 +509,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -529,7 +529,7 @@
             </div>
           </li>
           <li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -537,7 +537,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -557,7 +557,7 @@
             </div>
           </li>
           <li>
-            <a th:href="@{touserhome}" class="fly-avatar">
+            <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" class="fly-avatar">
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
             </a>
             <h2>
@@ -565,7 +565,7 @@
               <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
             </h2>
             <div class="fly-list-info">
-              <a th:href="@{touserhome}" link>
+              <a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}" link>
                 <cite>贤心</cite>
                 &lt;!&ndash;
                 <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
@@ -647,7 +647,7 @@
         <dl>
           <!--<i class="layui-icon fly-loading">&#xe63d;</i>-->
           <dd th:each="u:${weekUserList}">
-            <a th:href="@{touserhome/id(id=${u.id})}" >
+            <a th:href="@{/user/userhome/{userid}(userid=${u.id})}" >
               <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite th:text="${u.name}"></cite><i th:text="${u.frequency}+'次回答'"></i>
             </a>
           </dd>

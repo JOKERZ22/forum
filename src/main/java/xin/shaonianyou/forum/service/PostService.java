@@ -1,19 +1,26 @@
 package xin.shaonianyou.forum.service;
 
 import xin.shaonianyou.forum.entity.Post;
+import xin.shaonianyou.forum.entity.User;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
 public interface PostService {
-    public Map<String ,String> insert(Post post, HttpSession session);
+    public Map<String ,String> insert(Post post, User user);
 
     public List<Post> selectAll();
 
-    public List<Post> selectByModule(int moduleid);
+    public List<Post> selectByModule(long moduleid);
 
-    public List<Post> selectByCategory(int categoryid);
+    public List<Post> selectByCategory(long categoryid);
 
     public List<Post> selectHotPostByWeek();
+
+    public Post selectById(long postid);
+
+    public List<Post> selectByPost(Post post);
+
+    public long selsectCountByUserId(long userid);
+
 }

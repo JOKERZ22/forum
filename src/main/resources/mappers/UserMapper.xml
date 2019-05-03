@@ -33,6 +33,7 @@
         SELECT * FROM user WHERE name = #{username}
     </select>
 
+    <!--查询回复周榜用户-->
     <select id="selectMostUserByWeek" resultType="WeekUser">
         SELECT COUNT(*)as frequency ,u.id,u.name,u.avatar_location
         FROM post p,user u
@@ -46,4 +47,18 @@
         GROUP BY p.user_id
         ORDER BY frequency DESC
     </select>
+
+    <!--根据用户ID查询用户-->
+    <select id="selectById" parameterType="long" resultType="User">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
+    <!--修改用户密码-->
+    <update id="updatePass">
+        UPDATE user SET password = #{newpass} WHERE id = #{userid}
+    </update>
+
+    <update id="updateSection" parameterType="User">
+        UPDATE  user SET email = #{email},name = #{name},gender = #{gender},address = #{address},proflie = #{proflie} WHERE id = #{id}
+    </update>
 </mapper>

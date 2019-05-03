@@ -20,18 +20,23 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private PostMapper postMapper;
 
-    public Map<String ,String> insert(Post post, HttpSession session) {
-        User user = (User) session.getAttribute("usersession");
-        post.setUser_id(user.getId());
-        post.setDate_created(new Date());
+    //发表帖子
+    public Map<String ,String> insert(Post post,User user) {
+
         Map<String,String> resultMap = new HashMap<String, String>();
 
-        int i = postMapper.insert(post);
+        if(user == null){
+            resultMap.put("message","未登录，请先登陆");
+        }else{
+            post.setUser_id(user.getId());
+            post.setDate_created(new Date());
+            long i = postMapper.insert(post);
 
-        if( i<1){
-            resultMap.put("message","插入出错");
-        }else {
-            resultMap.put("message","1");
+            if( i<1){
+                resultMap.put("message","插入出错");
+            }else {
+                resultMap.put("message","1");
+            }
         }
         return resultMap;
     }
@@ -42,12 +47,12 @@ public class PostServiceImpl implements PostService {
     }
 
     //查询当前模块下的帖子
-    public List<Post> selectByModule(int moduleid){
+    public List<Post> selectByModule(long moduleid){
         return  postMapper.selectByModule(moduleid);
     }
 
     @Override
-    public List<Post> selectByCategory(int categoryid) {
+    public List<Post> selectByCategory(long categoryid) {
         return postMapper.selectByCategory(categoryid);
     }
 
@@ -60,5 +65,21 @@ public class PostServiceImpl implements PostService {
         String weekend = dateUtil.getWeekEnd();
 
         return postMapper.selectHotPostByWeek(weekstart,weekend);
+    }
+
+    @Override
+    public Post selectById(long postid) {
+        return postMapper.selectById(postid);
+    }
+
+    @Override
+    public List<Post> selectByPost(Post post) {
+
+        return postMapper.selectByPost(post);
+    }
+
+    @Override
+    public long selsectCountByUserId(long userid) {
+        return postMapper.selsectCountByUserId(userid);
     }
 }

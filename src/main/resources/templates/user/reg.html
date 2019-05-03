@@ -134,7 +134,10 @@
                 success: function (res) {
                     console.log(res.message);
                     if(res.message == 1) {
-                        location.href = "[[@{/login}]]";
+                        layer.msg("注册成功，即将跳转到登陆页面",{icon: 6},function () {
+
+                        });//成功的表情
+                        return;
                     } else {
                         layer.msg(res.message,{icon: 5});//失败的表情
                         return;
