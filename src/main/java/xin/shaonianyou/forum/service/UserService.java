@@ -17,7 +17,15 @@ public interface UserService {
 
     public User selectById(long id);
 
-    public Map<String, String> repass(String currentpass,String newpass,User usersession);
+    public Map<String, String> repass(String currentpass, String newpass, User usersession);
 
     public Map<String, String> updateSection(User user);
+
+    public Map<String, String> selectUserByUserName(User pageuser, HttpSession session);
+
+    public long userCount();
+
+    public List<User> selectAll();
+
+    public List<User> selectUserBySection(String start, String end, String username);
 }

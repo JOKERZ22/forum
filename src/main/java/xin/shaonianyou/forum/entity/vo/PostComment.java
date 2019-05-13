@@ -3,6 +3,7 @@ package xin.shaonianyou.forum.entity.vo;
 import java.io.Serializable;
 import java.util.Date;
 
+//帖子加回复，用于帖子详情页
 public class PostComment  implements Serializable {
 
     private Long postid;

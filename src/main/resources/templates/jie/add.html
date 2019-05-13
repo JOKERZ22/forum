@@ -8,7 +8,6 @@
   <meta name="keywords" content="fly,layui,前端社区">
   <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
   <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-  <!--<script src="layui/layui.all.js"></script>-->
   <link rel="stylesheet" href="/layui/css/layui.css">
   <link rel="stylesheet" href="/css/global.css">
 </head>
@@ -27,31 +26,28 @@
     
     <ul class="layui-nav fly-nav-user">
 
-      <!-- 未登入的状态 -->
+      <!-- 未登录的状态 -->
       <div th:if="${session.usersession} == null">
         <li class="layui-nav-item">
           <a class="iconfont icon-touxiang layui-hide-xs" th:href="@{/tologin}"></a>
         </li>
         <li class="layui-nav-item">
-          <a th:href="@{/tologin}">登入</a>
+          <a th:href="@{/tologin}">登录</a>
         </li>
         <li class="layui-nav-item">
           <a th:href="@{/toreg}">注册</a>
         </li>
       </div>
 
-      <!-- 登入后的状态 -->
+      <!-- 登录后的状态 -->
       <div th:if="${session.usersession} != null">
         <li class="layui-nav-item">
           <a class="fly-nav-avatar" href="javascript:;">
             <cite class="layui-hide-xs">贤心</cite>
-            <!--<i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>-->
-            <!--<i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>-->
             <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
           </a>
           <dl class="layui-nav-child">
             <dd><a href="../user/set.html"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
-            <dd><a href="../user/message.html"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
             <dd><a href="../user/home.html"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
             <hr style="margin: 5px 0;">
             <dd><a href="" style="text-align: center;">退出</a></dd>
@@ -64,7 +60,6 @@
 
 <div class="layui-container fly-marginTop">
   <div class="fly-panel" pad20 style="padding-top: 5px;">
-    <!--<div class="fly-none">没有权限</div>-->
     <div class="layui-form layui-form-pane">
       <div class="layui-tab layui-tab-brief">
         <ul class="layui-tab-title">
@@ -78,13 +73,10 @@
                   <label for="category_id" class="layui-form-label">所在专栏</label>
                   <div class="layui-input-block">
                     <select lay-verify="required" id="category_id" name="category_id" lay-filter="column">
-                      <option></option> 
-                      <option value="1">提问</option>
-                      <option value="2">分享</option>
-                      <option value="3">讨论</option>
-                      <option value="4">建议</option>
-                      <option value="5">公告</option>
-                      <option value="6">动态</option>
+                      <div th:each="c:${session.categoryList}">
+                        <option></option>
+                        <option th:value="${c.id}" th:text="${c.name}"></option>
+                      </div>
                     </select>
                   </div>
                 </div>
@@ -92,9 +84,10 @@
                   <label for="module_id" class="layui-form-label">所在模块</label>
                   <div class="layui-input-block">
                     <select lay-verify="required" id="module_id" name="module_id" lay-filter="column">
-                      <option></option>
-                      <option value="1">Java</option>
-                      <option value="2">JavaScript</option>
+                      <div th:each="m:${session.moduleList}">
+                        <option></option>
+                        <option th:value="${m.id}" th:text="${m.name}"></option>
+                      </div>
                     </select>
                   </div>
                 </div>
@@ -102,34 +95,6 @@
                   <label for="title" class="layui-form-label">标题</label>
                   <div class="layui-input-block">
                     <input type="text" id="title" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
-                    <!-- <input type="hidden" name="id" value="{{d.edit.id}}"> -->
-                  </div>
-                </div>
-              </div>
-              <div class="layui-row layui-col-space15 layui-form-item layui-hide" id="LAY_quiz">
-                <div class="layui-col-md3">
-                  <label class="layui-form-label">所属产品</label>
-                  <div class="layui-input-block">
-                    <select name="project">
-                      <option></option>
-                      <option value="layui">layui</option>
-                      <option value="独立版layer">独立版layer</option>
-                      <option value="独立版layDate">独立版layDate</option>
-                      <option value="LayIM">LayIM</option>
-                      <option value="Fly社区模板">Fly社区模板</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="layui-col-md3">
-                  <label class="layui-form-label" for="L_version">版本号</label>
-                  <div class="layui-input-block">
-                    <input type="text" id="L_version" value="" name="version" autocomplete="off" class="layui-input">
-                  </div>
-                </div>
-                <div class="layui-col-md6">
-                  <label class="layui-form-label" for="L_browser">浏览器</label>
-                  <div class="layui-input-block">
-                    <input type="text" id="L_browser"  value="" name="browser" placeholder="浏览器名称及版本，如：IE 11" autocomplete="off" class="layui-input">
                   </div>
                 </div>
               </div>
@@ -138,30 +103,6 @@
                   <textarea id="body" name="body" required lay-verify="required" placeholder="详细描述" class="layui-textarea fly-editor" style="height: 260px;"></textarea>
                 </div>
               </div>
-              <!--<div class="layui-form-item">
-                <div class="layui-inline">
-                  <label class="layui-form-label">悬赏积分</label>
-                  <div class="layui-input-inline" style="width: 190px;">
-                    <select name="experience">
-                      <option value="20">20</option>
-                      <option value="30">30</option>
-                      <option value="50">50</option>
-                      <option value="60">60</option>
-                      <option value="80">80</option>
-                    </select>
-                  </div>
-                  <div class="layui-form-mid layui-word-aux">发表后无法更改积分</div>
-                </div>
-              </div>-->
-              <!--<div class="layui-form-item">
-                <label for="L_vercode" class="layui-form-label">验证码</label>
-                <div class="layui-input-inline">
-                  <input type="text" id="L_vercode" name="vercode" required lay-verify="required" placeholder="请回答后面的问题" autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid">
-                  <span style="color: #c00;">1+1=?</span>
-                </div>
-              </div>-->
               <div class="layui-form-item">
                 <button id="submitBtn" type="button" class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addpost">立即发布</button>
               </div>

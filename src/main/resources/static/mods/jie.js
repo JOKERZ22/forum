@@ -139,18 +139,27 @@ layui.define('fly', function(exports){
   gather.jiedaActive = {
     zan: function(li){ //赞
       var othis = $(this), ok = othis.hasClass('zanok');
-      fly.json('/api/jieda-zan/', {
-        ok: ok
-        ,id: li.data('id')
-      }, function(res){
-        if(res.status === 0){
-          var zans = othis.find('em').html()|0;
-          othis[ok ? 'removeClass' : 'addClass']('zanok');
-          othis.find('em').html(ok ? (--zans) : (++zans));
-        } else {
-          layer.msg(res.msg);
-        }
-      });
+      var id = li.data('id');
+      console.log(id);
+      var url = "/post/zan";
+        $.ajax({
+            url: url,
+            type: "post",
+            async: true,
+            data:{"commentid": id},
+            success: function (res) {
+                console.log(res.message);
+                if(res.message == 1) {
+                    var zans = othis.find('em').html()|0;
+                    othis[ok ? 'removeClass' : 'addClass']('zanok');
+                    othis.find('em').html(ok ? (--zans) : (++zans));
+                    return;
+                } else {
+                    layer.msg(res.message,{icon: 5});//失败的表情
+                    return;
+                }
+            }
+        });
     }
     ,reply: function(li){ //回复
       var val = dom.content.val();
@@ -206,21 +215,31 @@ layui.define('fly', function(exports){
     ,del: function(li){ //删除
       layer.confirm('确认删除该回答么？', function(index){
         layer.close(index);
-        fly.json('/api/jieda-delete/', {
-          id: li.data('id')
-        }, function(res){
-          if(res.status === 0){
-            var count = dom.jiedaCount.text()|0;
-            dom.jiedaCount.html(--count);
-            li.remove();
-            //如果删除了最佳答案
-            if(li.hasClass('jieda-daan')){
-              $('.jie-status').removeClass('jie-status-ok').text('求解中');
-            }
-          } else {
-            layer.msg(res.msg);
-          }
-        });
+          var id = li.data('id');
+          console.log(id);
+          var url = "/comment/delete";
+          $.ajax({
+              url: url,
+              type: "post",
+              async: true,
+              data:{"commentid": id},
+              success: function (res) {
+                  console.log(res.message);
+                  if(res.message == 1) {
+                      var count = dom.jiedaCount.text()|0;
+                      dom.jiedaCount.html(--count);
+                      li.remove();
+                      //如果删除了最佳答案
+                      if(li.hasClass('jieda-daan')){
+                          $('.jie-status').removeClass('jie-status-ok').text('求解中');
+                      }
+                      return;
+                  } else {
+                      layer.msg(res.message,{icon: 5});//失败的表情
+                      return;
+                  }
+              }
+          });
       });    
     }
   };

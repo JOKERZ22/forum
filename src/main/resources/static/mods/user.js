@@ -61,7 +61,7 @@ layui.define(['laypage', 'fly', 'element', 'flow'], function(exports){
     var view = function(res){
       var html = laytpl(tpl[0]).render(res);
       dom.mine.children().eq(index).find('span').html(res.count);
-      elemUCM.children().eq(index).find('ul').html(res.rows.length === 0 ? '<div class="fly-msg">没有相关数据</div>' : html);
+      elemUCM.children().eq(index).find('ul').html(res.rows.length === 0 ? '<div class="fly-msg">暂无数据</div>' : html);
     };
 
     var page = function(now){

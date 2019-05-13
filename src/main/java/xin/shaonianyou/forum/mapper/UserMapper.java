@@ -22,4 +22,10 @@ public interface UserMapper {
 
     public long updateSection(User user);
 
+    public long userCount();
+
+    public List<User> selectAll();
+
+    public List<User> selectUserBySection(@Param("start")String start,@Param("end")String end,@Param("username")String username);
+
 }

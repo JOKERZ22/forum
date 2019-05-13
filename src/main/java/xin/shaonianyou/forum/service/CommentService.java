@@ -15,4 +15,10 @@ public interface CommentService {
     public Map<String,String> insert(Comment comment,HttpSession session);
 
     public List<PostComment> selectByUserId(long userid);
+
+    public long commentCount();
+
+    public Map<String,String> commentIncrease(long commentid);
+
+    public Comment selectCommentById(long commentid);
 }

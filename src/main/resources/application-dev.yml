@@ -11,6 +11,8 @@
   mybatis:
     mapper-locations: classpath:mappers/*.xml
     type-aliases-package: xin.shaonianyou.forum.entity
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
   #showSql
   logging:
@@ -18,3 +20,11 @@
       com:
         example:
           mapper : debug
+
+
+  #分页配置
+  pagehelper:
+   helperDialect: mysql
+   reasonable: true
+   supportMethodsArguments: true
+   params: count=countSql

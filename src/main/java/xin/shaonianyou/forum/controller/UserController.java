@@ -35,7 +35,7 @@ public class UserController {
         return userService.insertUser(pageuser);
     }
 
-    //用户登陆--通过邮箱
+    //用户登录--通过邮箱
     @PostMapping("/userlogin")
     @ResponseBody
     public Map<String, String> login(User pageuser, HttpSession session) {
@@ -45,10 +45,10 @@ public class UserController {
 
     //用户登出
     @RequestMapping("/logout")
-    public String logout(User user, HttpSession session) {
+    public String logout(HttpSession session) {
 
         if (!(session.getAttribute("usersession") == null)) {
-            session.invalidate();
+            session.removeAttribute("usersession");
         }
         return "redirect:/";
     }

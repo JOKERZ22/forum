@@ -8,7 +8,6 @@
   <meta name="keywords" content="fly,layui,前端社区">
   <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
   <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-  <!--<script src="layui/layui.all.js"></script>-->
   <link rel="stylesheet" href="/layui/css/layui.css">
   <link rel="stylesheet" href="/css/global.css">
 </head>
@@ -23,21 +22,17 @@
       <li class="layui-nav-item layui-this" th:each="m : ${session.moduleList}">
         <a th:href="@{/post/module/{moduleid}(moduleid=${m.id})}" th:text="${m.display_name}"><i class="iconfont icon-jiaoliu"></i></a>
       </li>
-      <!--<li class="layui-nav-item">        <a href="case/case.html"><i class="iconfont icon-iconmingxinganli"></i>案例</a>      </li>      <li class="layui-nav-item">        <a href="http://www.layui.com/" target="_blank"><i class="iconfont icon-ui"></i>框架</a>      </li>-->
     </ul>
     
     <ul class="layui-nav fly-nav-user">
-      <!-- 登入后的状态 -->
+      <!-- 登录后的状态 -->
       <li class="layui-nav-item">
         <a class="fly-nav-avatar" href="javascript:;">
           <cite class="layui-hide-xs" th:text="${session.usersession.name}"></cite>
-          <!--<i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>-->
-          <!--<i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>-->
           <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
         </a>
         <dl class="layui-nav-child">
           <dd><a th:href="@{/touserset}"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
-          <!--<dd><a th:href="@{/tousermessage}"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>-->
           <dd><a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a>
           </dd>
           <hr style="margin: 5px 0;">
@@ -53,7 +48,6 @@
     <li class="layui-nav-item"><a th:href="@{/user/userhome/{userid}(userid=${session.usersession.id})}"> <i class="layui-icon">&#xe609;</i> 我的主页 </a></li>
     <li class="layui-nav-item layui-this"><a th:href="@{/user/userindex}"> <i class="layui-icon">&#xe612;</i> 用户中心 </a></li>
     <li class="layui-nav-item"><a th:href="@{/touserset}"> <i class="layui-icon">&#xe620;</i> 基本设置 </a></li>
-    <!--<li class="layui-nav-item"><a th:href="@{/tousermessage}"> <i class="layui-icon">&#xe611;</i> 我的消息 </a></li>-->
   </ul>
 
   <div class="site-tree-mobile layui-hide">
@@ -68,15 +62,9 @@
   
   
   <div class="fly-panel fly-panel-user" pad20>
-    <!--
-    <div class="fly-msg" style="margin-top: 15px;">
-      您的邮箱尚未验证，这比较影响您的帐号安全，<a href="activate.html">立即去激活？</a>
-    </div>
-    -->
     <div class="layui-tab layui-tab-brief" lay-filter="user">
       <ul class="layui-tab-title" id="LAY_mine">
         <li data-type="mine-jie" lay-id="index" class="layui-this">我发的帖（<span th:text="${postcount}"></span>）</li>
-        <!--<li data-type="collection" data-url="/collection/find/" lay-id="collection">我收藏的帖（<span>16</span>）</li>-->
       </ul>
       <div class="layui-tab-content" style="padding: 20px 0;">
         <div class="layui-tab-item layui-show">
@@ -87,28 +75,8 @@
               <a class="mine-edit" href="/jie/edit/8116">编辑</a>
               <em th:text="${c.comment_count}+'答'"></em>
             </li>
-            <!--<li>
-              <a class="jie-title" href="../jie/detail.html" target="_blank">基于 layui 的极简社区页面模版</a>
-              <i>2017/3/14 上午8:30:00</i>
-              <a class="mine-edit" href="/jie/edit/8116">编辑</a>
-              <em>661阅/10答</em>
-            </li>
-            <li>
-              <a class="jie-title" href="../jie/detail.html" target="_blank">基于 layui 的极简社区页面模版</a>
-              <i>2017/3/14 上午8:30:00</i>
-              <a class="mine-edit" href="/jie/edit/8116">编辑</a>
-              <em>661阅/10答</em>
-            </li>-->
           </ul>
           <div id="LAY_page"></div>
-        </div>
-        <div class="layui-tab-item">
-          <ul class="mine-view jie-row">
-            <li>
-              <a class="jie-title" href="../jie/detail.html" target="_blank">基于 layui 的极简社区页面模版</a>
-              <i>收藏于23小时前</i>  </li>
-          </ul>
-          <div id="LAY_page1"></div>
         </div>
       </div>
     </div>

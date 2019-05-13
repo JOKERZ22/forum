@@ -3,6 +3,7 @@ package xin.shaonianyou.forum.entity.vo;
 import java.io.Serializable;
 import java.util.Date;
 
+//回复内容加用户信息，用于帖子详情页
 public class CommentUser implements Serializable {
 
     private long user_id;
@@ -12,6 +13,7 @@ public class CommentUser implements Serializable {
     private Date date_created;
     private long hit_count;
     private String body;
+    private long comment_id;
 
     private static final long serialVersionUID = 1L;
 
@@ -71,6 +73,14 @@ public class CommentUser implements Serializable {
         this.body = body;
     }
 
+    public long getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(long comment_id) {
+        this.comment_id = comment_id;
+    }
+
     @Override
     public String toString() {
         return "CommentUser{" +
@@ -81,6 +91,7 @@ public class CommentUser implements Serializable {
                 ", date_created=" + date_created +
                 ", hit_count=" + hit_count +
                 ", body='" + body + '\'' +
+                ", comment_id=" + comment_id +
                 '}';
     }
 }

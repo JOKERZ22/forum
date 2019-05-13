@@ -40,11 +40,11 @@ public class CommentServiceImpl implements CommentService {
         } else {
             comment.setUser_id(user.getId());
             long i = commentMapper.insert(comment);
-            if (i < 0) {
+            if (i < 1) {
                 resultMap.put("message", "插入出错");
             } else {
                 long k = postMapper.updateCommentCount(comment.getPost_id());
-                if(k<0){
+                if (k < 1) {
                     resultMap.put("message", "插入出错");
                 }
                 resultMap.put("message", "1");
@@ -57,5 +57,36 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<PostComment> selectByUserId(long userid) {
         return commentMapper.selectByUserId(userid);
+    }
+
+    @Override
+    public long commentCount() {
+        return commentMapper.commentCount();
+    }
+
+    @Override
+    public Map<String, String> commentIncrease(long commentid) {
+
+        //用于存放信息
+        Map<String, String> resultMap = new HashMap<String, String>();
+
+        long l = commentMapper.commentIncrease(commentid);
+        if (l < 1) {
+            resultMap.put("message", "点赞出错");
+        } else {
+            long k = postMapper.updateHitCount(commentid);
+            if (k < 1) {
+                resultMap.put("message", "点赞出错");
+            } else {
+                resultMap.put("message", "1");
+            }
+        }
+
+        return resultMap;
+    }
+
+    @Override
+    public Comment selectCommentById(long commentid) {
+        return commentMapper.selectCommentById(commentid);
     }
 }

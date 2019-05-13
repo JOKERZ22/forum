@@ -13,4 +13,10 @@ public interface CommentMapper {
     public long insert(Comment comment);
 
     public List<PostComment> selectByUserId(long userid);
+
+    public long commentCount();
+
+    public long commentIncrease(long commentid);
+
+    public Comment selectCommentById(long commentid);
 }

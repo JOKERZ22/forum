@@ -4,7 +4,7 @@
 
     <!--查询回复列表带User-->
     <select id="selectCommentListByPostId" resultType="CommentUser" parameterType="long">
-        SELECT u.id as user_id,u.name as name,u.avatar_location as avatar_location,c.post_id as post_id,c.date_created as date_created,c.hit_count as hit_count,c.body as body
+        SELECT u.id as user_id,u.name as name,u.avatar_location as avatar_location,c.post_id as post_id,c.date_created as date_created,c.hit_count as hit_count,c.body as body,c.id as comment_id
         FROM comment c,user u
         WHERE c.post_id =#{postid}
         AND  c.user_id = u.id
@@ -16,6 +16,7 @@
         INSERT INTO comment(body,post_id,user_id) VALUES(#{body},#{post_id},#{user_id})
     </insert>
 
+    <!--帖子及其评论-->
     <select id="selectByUserId" resultType="PostComment" parameterType="long">
         SELECT
             p.id as postid,c.date_created as commentdate,p.title as posttitle,c.body as commentbody
@@ -25,5 +26,20 @@
 		GROUP BY p.id
         ORDER  BY c.date_created DESC
         limit 10
+    </select>
+
+    <!--评论总数-->
+    <select id="commentCount" resultType="long">
+        SELECT COUNT(*) FROM comment as commentcount
+    </select>
+
+    <!--点赞，自增-->
+    <update id="commentIncrease" parameterType="long" >
+        UPDATE comment set hit_count = hit_count+1 WHERE id = #{commentid}
+    </update>
+
+    <!--根据评论id查询评论-->
+    <select id="selectCommentById" parameterType="long" resultType="Comment">
+        SELECT * FROM comment WHERE id = #{commentid}
     </select>
 </mapper>

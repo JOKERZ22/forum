@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import xin.shaonianyou.forum.entity.Category;
 import xin.shaonianyou.forum.entity.Module;
 import xin.shaonianyou.forum.entity.Post;
+import xin.shaonianyou.forum.entity.vo.PostUser;
 import xin.shaonianyou.forum.entity.vo.WeekUser;
 import xin.shaonianyou.forum.service.CategoryService;
 import xin.shaonianyou.forum.service.ModuleService;
@@ -40,13 +41,13 @@ public class IndexController {
 
         List<Module> moduleList = moduleService.selectAll();
         List<Category> categoryList = categoryService.selectAll();
-        List<Post> postList = postService.selectAll();
+        List<PostUser> postUserList = postService.selectIndex();
         List<Post> weekHotPostList = postService.selectHotPostByWeek();
         List<WeekUser> weekUserList = userService.selectMostUserByWeek();
 
         session.setAttribute("moduleList", moduleList);
         session.setAttribute("categoryList", categoryList);
-        mv.addObject("postList", postList);
+        mv.addObject("postUserList", postUserList);
         mv.addObject("weekHotPostList",weekHotPostList);
         mv.addObject("weekUserList",weekUserList);
 

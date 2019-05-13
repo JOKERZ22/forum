@@ -67,8 +67,46 @@
         FROM post         WHERE  user_id = #{userid}
     </select>
 
+    <!--评论后更新回帖计数-->
     <update id="updateCommentCount" parameterType="long" >
         UPDATE post SET comment_count = comment_count+1 WHERE id = #{postid}
+    </update>
+
+    <!--首页查询-->
+    <select id="selectIndex" resultType="PostUser">
+        SELECT
+            u.id AS user_id,
+            u.NAME AS user_name,
+            u.avatar_location AS avatar_location,
+            p.id AS post_id,
+            c.id AS category_id,
+            c.`name` AS category_name,
+            p.date_created AS date_created,
+            p.comment_count AS comment_count,
+            p.title AS title
+        FROM
+            post p,
+            `user` u,
+            category c
+        WHERE
+            p.user_id = u.id
+            AND p.category_id = c.id
+            ORDER BY date_created DESC
+	        LIMIT 10
+    </select>
+
+    <!--帖子总数-->
+    <select id="postCount" resultType="long">
+        SELECT COUNT(*) FROM post as postcount
+    </select>
+
+    <!--点赞功能-->
+    <update id="updateHitCount" parameterType="long" >
+        UPDATE post p,comment c
+        SET p.hit_count = p.hit_count + 1
+        WHERE
+            p.id = c.post_id
+        AND c.id = #{commentid}
     </update>
 
 </mapper>

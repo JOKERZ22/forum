@@ -1,5 +1,7 @@
 package xin.shaonianyou.forum.entity.vo;
 
+
+//回复周榜
 public class WeekUser {
 
     private Long frequency;
