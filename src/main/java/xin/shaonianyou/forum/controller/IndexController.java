@@ -39,10 +39,17 @@ public class IndexController {
 
         ModelAndView mv = new ModelAndView();
 
+        //查询首页所需的各种信息
+
+        //版块
         List<Module> moduleList = moduleService.selectAll();
+        //类别
         List<Category> categoryList = categoryService.selectAll();
+        //帖子列表
         List<PostUser> postUserList = postService.selectIndex();
+        //本周热议
         List<Post> weekHotPostList = postService.selectHotPostByWeek();
+        //回帖周榜
         List<WeekUser> weekUserList = userService.selectMostUserByWeek();
 
         session.setAttribute("moduleList", moduleList);

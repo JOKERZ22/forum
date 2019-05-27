@@ -7,13 +7,13 @@
   <title>首页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="keywords" content="fly,layui,前端社区">
-  <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
+  <meta name="description" content="Fly社区是版块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
   <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
   <link rel="stylesheet" href="/layui/css/layui.css">
   <link rel="stylesheet" href="/css/global.css">
 </head>
 <body>
-
+<form id="formid" method='post'action="/post/search">
 <div class="fly-header layui-bg-black">
   <div class="layui-container">
     <a class="fly-logo" href="/">
@@ -21,7 +21,7 @@
     </a>
     <ul class="layui-nav fly-nav layui-hide-xs">
       <li class="layui-nav-item layui-this" th:each="m : ${session.moduleList}">
-        <a th:href="@{/post/module/{moduleid}(moduleid=${m.id})}" th:text="${m.display_name}"><i class="iconfont icon-jiaoliu"></i></a>
+        <a th:onclick=" 'javascript:postSearch(this,'+${m.id}+',null,null,null)'" th:text="${m.display_name}"><i class="iconfont icon-jiaoliu"></i></a>
       </li>
     </ul>
 
@@ -45,7 +45,7 @@
         <li class="layui-nav-item">
           <a class="fly-nav-avatar" href="javascript:;">
             <cite class="layui-hide-xs" th:text="${session.usersession.name}"></cite>
-            <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
+            <img th:src="${session.usersession.avatar_location}" th:width="118px" th:height="118px">
           </a>
           <dl class="layui-nav-child">
             <dd><a th:href="@{/touserset}"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
@@ -63,13 +63,13 @@
   <div class="layui-container">
     <ul class="layui-clear">
       <li th:each="n : ${session.categoryList}">
-        <a th:href="@{/post/category/{categoryid}(categoryid=${n.id})}" th:text="${n.display_name}"></a>
+        <a th:onclick=" 'javascript:postSearch(this,null,'+${n.id}+',null,null)'" th:text="${n.display_name}"></a>
       </li>
 
       <!-- 用户登录后显示 -->
 
-      <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block" th:if="${session.usersession} != null" ><span class="fly-mid"></span></li>
-      <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block" th:if="${session.usersession} != null" ><a th:href="@{/user/userindex}">我发表的贴</a></li>
+      <li class="fly-column-right layui-hide-xs layui-hide-sm layui-show-md-inline-block" th:if="${session.usersession} != null" ><span class="fly-mid"></span></li>
+      <li class="fly-column-right layui-hide-xs layui-hide-sm layui-show-md-inline-block" th:if="${session.usersession} != null" ><a th:href="@{/user/userindex}">我发表的贴</a></li>
     </ul>
     <div class="fly-column-right layui-hide-xs" th:if="${session.usersession} != null" >
       <a th:href="@{/topostadd}" class="layui-btn">发表新帖</a>
@@ -80,86 +80,56 @@
 <div class="layui-container">
   <div class="layui-row layui-col-space15">
     <div class="layui-col-md8">
-      <div class="fly-panel">
-        <div class="fly-panel-title fly-filter">
-          <a>置顶</a>
-          <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
-        </div>
-        <ul class="fly-list">
-          <li>
-            <a th:href="@{/user/userhome/{userid}}" class="fly-avatar">
-              <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-            </a>
-            <h2>
-              <a class="layui-badge">动态</a>
-              <a th:href="@{/todetail}">基于 layui 的极简社区页面模版</a>
-            </h2>
-            <div class="fly-list-info">
-              <a th:href="@{/user/userhome/{userid}}" link>
-                <cite>贤心</cite>
-                <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                <i class="layui-badge fly-badge-vip">VIP3</i>
-              </a>
-              <span>刚刚</span>
-              <span class="fly-list-kiss layui-hide-xs" title="悬赏积分"><i class="iconfont icon-kiss"></i> 60</span>
-              <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
-              <span class="fly-list-nums">
-                <i class="iconfont icon-pinglun1" title="回答"></i> 66
-              </span>
-            </div>
-            <div class="fly-list-badge">
-              <span class="layui-badge layui-bg-black">置顶</span>
-              <span class="layui-badge layui-bg-red">精帖</span>
-            </div>
-          </li>
-        </ul>
-      </div>
 
       <div class="fly-panel" style="margin-bottom: 0;">
-
         <div class="fly-panel-title fly-filter">
-          <a href="" class="layui-this">综合</a>
+          <!--<a href="" class="layui-this">综合</a>
           <span class="fly-mid"></span>
           <a href="">未结</a>
           <span class="fly-mid"></span>
-          <a href="">已结</a>
-          <span class="fly-mid"></span>
-          <a href="">精华</a>
+          <a href="">已结</a>-->
+          <!--<span class="fly-mid"></span>-->
+          ITHOME欢迎您！
           <span class="fly-filter-right layui-hide-xs">
-            <a href="" class="layui-this">按最新</a>
+            <a th:onclick=" 'javascript:postSearch(this,null,null,1,null)'">按最新</a>
             <span class="fly-mid"></span>
-            <a href="">按热议</a>
+            <a  th:onclick=" 'javascript:postSearch(this,null,null,null,1)'">按热议</a>
           </span>
         </div>
 
+
         <ul class="fly-list">
-          <li th:each="x : ${postUserList}">
-            <a th:href="@{/user/userhome/{userid}(userid=${x.user_id})}" class="fly-avatar">
-              <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
-            </a>
-            <h2>
-              <a class="layui-badge" th:text="${x.category_name}"></a>
-              <a th:href="@{/post/postdetail/{postid}(postid=${x.post_id})}" th:text="${x.title}"></a>
-            </h2>
-            <div class="fly-list-info">
-              <a th:href="@{/user/userhome/{userid}(userid=${x.user_id})}" link>
-                <cite th:text="${x.user_name}"></cite>
+          <div th:if="${postUserList.size()>0}">
+            <li th:each="x : ${postUserList}">
+              <a th:href="@{/user/userhome/{userid}(userid=${x.user_id})}" class="fly-avatar">
+                <img th:src="${x.avatar_location}" th:width="118px" th:height="118px" alt="贤心">
               </a>
-              <span th:text="${#dates.format(x.date_created,'yyyy-MM-dd HH:mm:ss')}"></span>
-              <span class="fly-list-nums">
+              <h2>
+                <a class="layui-badge" th:text="${x.category_name}"></a>
+                <a th:href="@{/post/postdetail/{postid}(postid=${x.post_id})}" th:text="${x.title}"></a>
+              </h2>
+              <div class="fly-list-info">
+                <a th:href="@{/user/userhome/{userid}(userid=${x.user_id})}" link>
+                  <cite th:text="${x.user_name}"></cite>
+                </a>
+                <span th:text="${#dates.format(x.date_created,'yyyy-MM-dd HH:mm:ss')}"></span>
+                <span class="fly-list-nums">
                 <i class="iconfont icon-pinglun1" title="回答" th:text="${x.comment_count}"></i>
               </span>
+              </div>
+              <div class="fly-list-badge">
+              </div>
+            </li>
+            <div style="text-align: center">
+            <div class="laypage-main">
+              <a th:onclick=" 'javascript:postSearch(this,null,null,null,null)'" class="laypage-next">更多求解</a>
             </div>
-            <div class="fly-list-badge">
-            </div>
-          </li>
-        </ul>
-        <div style="text-align: center">
-          <div class="laypage-main">
-            <a href="jie/index.html" class="laypage-next">更多求解</a>
           </div>
-        </div>
-
+          </div>
+          <div th:if="${postUserList.size()==0}">
+            <div class="fly-none" th:if="${weekUserList.size() ==0 }">暂无数据</div>
+          </div>
+        </ul>
       </div>
     </div>
     <div class="layui-col-md4">
@@ -199,7 +169,7 @@
           <dt class="fly-panel-title">回贴周榜</dt>
           <dd  th:if="${weekUserList.size() >0}" th:each="u:${weekUserList}" >
             <a th:href="@{/user/userhome/{userid}(userid=${u.id})}" >
-              <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite th:text="${u.name}"></cite><i th:text="${u.frequency}+'次回答'"></i>
+              <img th:src="${u.avatar_location}" th:width="118px" th:height="118px"><cite><div  th:text="${u.name}" th:align="center"></div></cite><i><div th:text="${u.frequency}+'次回答'" th:align="center"></div></i>
             </a>
           </dd>
           <!-- 无数据时 -->
@@ -209,7 +179,7 @@
       <dl class="fly-panel fly-list-one">
         <dt class="fly-panel-title">本周热议</dt>
         <dd th:if="${weekHotPostList.size() >0}" th:each="b:${weekHotPostList}">
-          <a href="" th:text="${b.title}"></a>
+          <a th:href="@{/post/postdetail/{postid}(postid=${b.id})}" th:text="${b.title}"></a>
           <span><i class="iconfont icon-pinglun1" th:text="${b.comment_count}"></i></span>
         </dd>
         <!-- 无数据时 -->
@@ -235,16 +205,18 @@
           <dd><a href="mailto:xianxin@layui-inc.com?subject=%E7%94%B3%E8%AF%B7Fly%E7%A4%BE%E5%8C%BA%E5%8F%8B%E9%93%BE" class="fly-link">申请友链</a><dd>
         </dl>
       </div>
-
     </div>
   </div>
 </div>
 
 <div class="fly-footer">
   <p><a href="http://www.shaonianyou.xin/" target="_blank">ITHOME</a> 2019 &copy; <a href="http://www.shaonianyou.xin/" target="_blank">shaonianyou.xin</a></p>
-
 </div>
-
+  <input type="hidden" id="tmodule" name="tmodule" value="">
+  <input type="hidden" id="tcategory" name="tcategory" value="">
+  <input type="hidden" id="tlatest" name="tlatest" value="">
+  <input type="hidden" id="thot" name="thot" value="">
+</form>
 <script src="/layui/layui.js"></script>
 <script>
     layui.cache.page = '';
@@ -261,6 +233,71 @@
     }).extend({
         fly: 'index'
     }).use('fly');
+</script>
+<script>
+function postSearch(obj,moduleid,categoryid,latest,hot) {
+
+    /*console.log(moduleid);
+    console.log(categoryid);
+    console.log(latest);
+    console.log(hot);
+    console.log('\n');*/
+
+    if (moduleid != null && moduleid != '') {
+        $('#tmodule').val(moduleid);
+        $(obj).addClass('layui-this');
+    }
+    if (categoryid != null && categoryid != '') {
+        $('#tcategory').val(categoryid);
+        $(obj).addClass('layui-this');
+    }
+    if (latest != null && latest != '') {
+        $('#tlatest').val(1);
+        $('#thot').val(0);
+        $(obj).addClass('layui-this');
+        $(obj).parents("span").find("a").eq(1).removeClass('layui-this');
+    }
+    if (hot != null && hot != '') {
+        $('#thot').val(1);
+        $('#tlatest').val(0);
+        $(obj).addClass('layui-this');
+        $(obj).parents("span").find("a").eq(0).removeClass('layui-this');
+    }
+
+
+
+    var url = "[[@{/post/search}]]";
+    var tmodule = $("input[name=tmodule]").val();
+    var tcategory = $("input[name=tcategory]").val();
+    var tlatest = $("input[name=tlatest]").val();
+    var thot = $("input[name=thot]").val();
+
+    /*alert(tmodule);
+    alert(tcategory);
+    alert(tlatest);
+    alert(thot);
+    console.log('\n');
+    console.log('\n');*/
+
+    document.getElementById("formid").submit();
+
+    /*$.ajax({
+        url: url,
+        type: "get",
+        async: false,
+        data:{"tmodule": tmodule, "tcategory":tcategory,"tlatest": tlatest,"thot": thot},
+        success: function (res) {
+            console.log(res);
+            if(res.resultCode == 200) {
+
+                return;
+            } else {
+                layer.msg("查询失败！",{icon: 5});//失败的表情
+                return;
+            }
+        }
+    });*/
+}
 </script>
 
 <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_30088308'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "w.cnzz.com/c.php%3Fid%3D30088308' type='text/javascript'%3E%3C/script%3E"));</script>

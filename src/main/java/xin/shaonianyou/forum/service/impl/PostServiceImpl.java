@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xin.shaonianyou.forum.entity.Post;
 import xin.shaonianyou.forum.entity.User;
+import xin.shaonianyou.forum.entity.vo.PostSearch;
 import xin.shaonianyou.forum.entity.vo.PostUser;
 import xin.shaonianyou.forum.mapper.PostMapper;
 import xin.shaonianyou.forum.service.PostService;
@@ -47,8 +48,8 @@ public class PostServiceImpl implements PostService {
         return postMapper.selectAll();
     }
 
-    //查询当前模块下的帖子
-    public List<Post> selectByModule(long moduleid) {
+    //查询当前版块下的帖子
+    public List<PostUser> selectByModule(long moduleid) {
         return postMapper.selectByModule(moduleid);
     }
 
@@ -92,5 +93,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public long postCount() {
         return postMapper.postCount();
+    }
+
+    @Override
+    public List<PostUser> postSearch(PostSearch postSearch) {
+        return postMapper.postSearch(postSearch);
     }
 }

@@ -6,7 +6,7 @@
   <title>用户主页</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="keywords" content="fly,layui,前端社区">
-  <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
+  <meta name="description" content="Fly社区是版块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
   <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
   <link rel="stylesheet" href="/layui/css/layui.css">
   <link rel="stylesheet" href="/css/global.css">
@@ -43,7 +43,7 @@
           <li class="layui-nav-item">
             <a class="fly-nav-avatar" href="javascript:;">
               <cite class="layui-hide-xs" th:text="${session.usersession.name}"></cite>
-              <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
+              <img th:src="${session.usersession.avatar_location}" th:width="118px" th:height="118px">
             </a>
             <dl class="layui-nav-child">
               <dd><a th:href="@{/touserset}"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
@@ -59,7 +59,7 @@
 </div>
 
 <div class="fly-home fly-panel" style="background-image: url();">
-  <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
+  <img th:src="${selectUser.avatar_location}" th:height="118px" th:width="118px">
   <h1 th:text="${selectUser.name}">
     <i class="iconfont icon-nan"></i>
   </h1>
@@ -76,34 +76,39 @@
   <div class="layui-row layui-col-space15">
     <div class="layui-col-md6 fly-home-jie">
       <div class="fly-panel">
-        <h3 class="fly-panel-title" th:text="${selectUser.name}+' 最近的提问'"></h3>
+        <h3 class="fly-panel-title" th:text="${selectUser.name}+' 最近发表'"></h3>
         <ul class="jie-row">
-          <li th:each="q:${questionPostList}">
-            <a th:href="@{/post/postdetail/{postid}(postid=${q.id})}" class="jie-title" th:text="${q.title}"></a>
-            <i th:text="${#dates.format(q.date_created,'yyyy-MM-dd HH:mm:ss')}"></i>
-            <em class="layui-hide-xs" th:text="${q.comment_count}+'答'"></em>
-          </li>
+          <div th:if="${questionPostList.size()>0}">
+            <li th:each="q:${questionPostList}">
+              <a th:href="@{/post/postdetail/{postid}(postid=${q.id})}" class="jie-title" th:text="${q.title}"></a>
+              <i th:text="${#dates.format(q.date_created,'yyyy-MM-dd HH:mm:ss')}"></i>
+              <em class="layui-hide-xs" th:text="${q.comment_count}+'答'"></em>
+            </li>
+          </div>
+          <div th:if="${questionPostList.size() ==0}">
+            <div class="fly-none" style="min-height: 50px; padding:30px 0; height:auto;"><span>没有提问任何问题</span></div>
+          </div>
         </ul>
       </div>
     </div>
 
     <div class="layui-col-md6 fly-home-da">
       <div class="fly-panel">
-        <h3 class="fly-panel-title" th:text="${selectUser.name}+' 最近的回答'"></h3>
+        <h3 class="fly-panel-title" th:text="${selectUser.name}+' 最近的回复'"></h3>
         <ul class="home-jieda">
           <div th:if="${answerCommentList.size()>0}">
             <li th:each="l:${answerCommentList}">
               <p>
                 <span th:text="${#dates.format(l.commentdate,'yyyy-MM-dd HH:mm:ss')}"></span>
                 在<a th:href="@{/post/postdetail/{postid}(postid=${l.postid})}" target="_blank"
-                    th:text="${l.posttitle}"></a>中回答：
+                    th:text="${l.posttitle}"></a>中回复：
               </p>
-              <div class="home-dacontent" th:text="${l.commentbody}">
+              <div class="home-dacontent" th:utext="${l.commentbody}">
               </div>
             </li>
           </div>
           <div th:if="${answerCommentList.size() ==0}">
-            <div class="fly-none" style="min-height: 50px; padding:30px 0; height:auto;"><span>没有回答任何问题</span></div>
+            <div class="fly-none" style="min-height: 50px; padding:30px 0; height:auto;"><span>没有回复任何帖子</span></div>
           </div>
         </ul>
       </div>

@@ -1,6 +1,6 @@
 /**
 
- @Name: 用户模块
+ @Name: 用户版块
 
  */
  
@@ -167,17 +167,25 @@ layui.define(['laypage', 'fly', 'element', 'flow'], function(exports){
 
       upload.render({
         elem: '.upload-img'
-        ,url: '/user/upload/'
+        ,url: '/user/upload'
         ,size: 50
         ,before: function(){
           avatarAdd.find('.loading').show();
         }
         ,done: function(res){
-          if(res.status == 0){
-            $.post('/user/set/', {
-              avatar: res.url
+          console.log(res.data.src);
+          if(res.code == 0){
+            $.post('/user/avator', {
+              avatar: res.data.src
             }, function(res){
-              location.reload();
+                console.log(res.message);
+                if(res.message == 1) {
+                    layer.msg("修改成功",{icon: 6},function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg(res.message,{icon: 5});//失败的表情
+                }
             });
           } else {
             layer.msg(res.msg, {icon: 5});

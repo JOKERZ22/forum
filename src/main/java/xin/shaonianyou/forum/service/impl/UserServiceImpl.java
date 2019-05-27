@@ -122,6 +122,7 @@ public class UserServiceImpl implements UserService {
         } else if (!(userMapper.selectUserByUserName(user.getName()) == null || userMapper.selectUserByUserName(user.getName()).equals(""))) {
             resultMap.put("message", "用户名已存在，请更换");
         } else {
+            System.out.println("test"+user);
             long i = userMapper.updateSection(user);
             if (i < 1) {
                 resultMap.put("message", "修改失败");
@@ -172,6 +173,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> selectUserBySection(String start, String end, String username) {
         return userMapper.selectUserBySection(start, end, username);
+    }
+
+    @Override
+    public long updateUserStatus(long status, long userid) {
+        return userMapper.updateUserStatus(status,userid);
+    }
+
+    @Override
+    public long deleteUser(long userid) {
+        return userMapper.deleteUser(userid);
+    }
+
+    @Override
+    public long updateUserAdmin(long adminid, long userid) {
+        return userMapper.updateUserAdmin(adminid,userid);
+    }
+
+    @Override
+    public long updateAvator(String url, long userid) {
+        return userMapper.updateAvator(url,userid);
     }
 
 }

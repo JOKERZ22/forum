@@ -28,4 +28,12 @@ public interface UserMapper {
 
     public List<User> selectUserBySection(@Param("start")String start,@Param("end")String end,@Param("username")String username);
 
+    public long updateUserStatus(@Param("status")long status,@Param("userid")long userid);
+
+    public long deleteUser(long userid);
+
+    public long updateUserAdmin(@Param("adminid")long adminid,@Param("userid")long userid);
+
+    public long updateAvator(@Param("url")String url,@Param("userid")long userid);
+
 }

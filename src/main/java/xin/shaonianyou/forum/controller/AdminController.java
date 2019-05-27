@@ -279,4 +279,66 @@ public class AdminController {
         }
         return resultMap;
     }
+
+    //修改用户状态
+    @PostMapping("/userstatus")
+    @ResponseBody
+    public Map<String, String> updateUserStatus(long userid) {
+        //用于存放信息
+        Map<String, String> resultMap = new HashMap<String, String>();
+        long status = 0;
+
+        User targetuser = userService.selectById(userid);
+        if (targetuser.getStatus() == 0) {
+            status = 1;
+        } else {
+            status = 0;
+        }
+
+        long l = userService.updateUserStatus(status, userid);
+        if (l < 1) {
+            resultMap.put("message", "修改失败");
+        } else {
+            resultMap.put("message", "1");
+        }
+        return resultMap;
+    }
+
+    //删除用户
+    @PostMapping("/userdelete")
+    @ResponseBody
+    public Map<String, String> deleteUser(long userid) {
+        //用于存放信息
+        Map<String, String> resultMap = new HashMap<String, String>();
+        long l = userService.deleteUser(userid);
+        if (l < 1) {
+            resultMap.put("message", "修改失败");
+        } else {
+            resultMap.put("message", "1");
+        }
+        return resultMap;
+    }
+
+    //修改用户是否为管理员
+    @PostMapping("/useradmin")
+    @ResponseBody
+    public Map<String, String> updateAdmin(long userid) {
+        //用于存放信息
+        Map<String, String> resultMap = new HashMap<String, String>();
+        long status = 0;
+
+        User targetuser = userService.selectById(userid);
+        if (targetuser.getIs_administrator() == 0) {
+            status = 1;
+        } else {
+            status = 0;
+        }
+        long l = userService.updateUserAdmin(status, userid);
+        if (l < 1) {
+            resultMap.put("message", "修改失败");
+        } else {
+            resultMap.put("message", "1");
+        }
+        return resultMap;
+    }
 }

@@ -21,16 +21,17 @@
     <!--查询回复周榜用户-->
     <select id="selectMostUserByWeek" resultType="WeekUser">
         SELECT COUNT(*)as frequency ,u.id,u.name,u.avatar_location
-        FROM post p,user u
-        WHERE p.user_id = u.id
+        FROM comment c,user u
+        WHERE c.user_id = u.id
         <if test="weekstart != null and  weekstart != ''">
-            <![CDATA[ AND p.date_created >= STR_TO_DATE(#{weekstart},"%Y-%m-%d")]]>
+            <![CDATA[ AND c.date_created >= STR_TO_DATE(#{weekstart},"%Y-%m-%d")]]>
         </if>
         <if test="weekend != null and  weekend != ''">
-            <![CDATA[ AND p.date_created <= STR_TO_DATE(#{weekend},"%Y-%m-%d")]]>
+            <![CDATA[ AND c.date_created <= STR_TO_DATE(#{weekend},"%Y-%m-%d")]]>
         </if>
-        GROUP BY p.user_id
+        GROUP BY c.user_id
         ORDER BY frequency DESC
+        limit 5
     </select>
 
     <!--根据用户ID查询用户-->
@@ -45,7 +46,25 @@
 
     <!--修改用户部分资料-->
     <update id="updateSection" parameterType="User">
-        UPDATE  user SET email = #{email},name = #{name},gender = #{gender},address = #{address},proflie = #{proflie} WHERE id = #{id}
+        UPDATE  user
+        <set>
+            <if test="email != null and  email != ''">
+                email = #{email},
+            </if>
+            <if test="name != null and  name != ''">
+                name = #{name},
+            </if>
+            <if test="(gender != null and  gender != '') or gender ==0 ">
+                gender = #{gender},
+            </if>
+            <if test="address != null and  address != ''">
+                address = #{address},
+            </if>
+            <if test="proflie != null and  proflie != ''">
+                proflie = #{proflie},
+            </if>
+        </set>
+            WHERE id = #{id}
     </update>
 
     <!--查询用户总数-->
@@ -71,6 +90,25 @@
         <if test="username != null and  username != ''">
             AND name like CONCAT('%',#{username},'%')
         </if>
-
     </select>
+
+    <!--修改用户状态-->
+    <update id="updateUserStatus">
+        UPDATE user set status = #{status} WHERE id = #{userid}
+    </update>
+
+    <!--删除用户-->
+    <delete id="deleteUser" parameterType="long" >
+        DELETE FROM user WHERE id = #{userid}
+    </delete>
+
+    <!--设置用户是否为管理员-->
+    <update id="updateUserAdmin">
+        UPDATE user  SET is_administrator = #{adminid} WHERE id = #{userid}
+    </update>
+
+    <!--修改用户头像地址-->
+    <update id="updateAvator" >
+        UPDATE user set avatar_location = #{url} WHERE id = #{userid}
+    </update>
 </mapper>

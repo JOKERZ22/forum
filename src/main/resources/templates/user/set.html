@@ -6,7 +6,7 @@
   <title>帐号设置</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="keywords" content="fly,layui,前端社区">
-  <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
+  <meta name="description" content="Fly社区是版块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
   <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
   <!--<script src="layui/layui.all.js"></script>-->
   <link rel="stylesheet" href="/layui/css/layui.css">
@@ -30,7 +30,7 @@
       <li class="layui-nav-item">
         <a class="fly-nav-avatar" href="javascript:;">
           <cite class="layui-hide-xs" th:text="${session.usersession.name}"></cite>
-          <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
+          <img th:src="${session.usersession.avatar_location}" th:width="118px" th:height="118px">
         </a>
         <dl class="layui-nav-child">
           <dd><a th:href="@{/touserset}"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
@@ -90,14 +90,14 @@
             <div class="layui-form-item">
               <label for="email" class="layui-form-label">邮箱</label>
               <div class="layui-input-inline">
-                <input type="text" id="email" name="email" required lay-verify="email" autocomplete="off" value=""
+                <input type="text" id="email" name="email" required  autocomplete="off" value=""
                        class="layui-input">
               </div>
             </div>
             <div class="layui-form-item">
               <label for="name" class="layui-form-label">昵称</label>
               <div class="layui-input-inline">
-                <input type="text" id="name" name="name" required lay-verify="required" autocomplete="off"
+                <input type="text" id="name" name="name" required  autocomplete="off"
                        value="" class="layui-input">
               </div>
               <div class="layui-inline">
@@ -129,12 +129,12 @@
           
           <div class="layui-form layui-form-pane layui-tab-item">
             <div class="layui-form-item">
-              <div class="avatar-add">
+              <div class="avatar-add" id="upload">
                 <p>建议尺寸168*168，支持jpg、png、gif，最大不能超过50KB</p>
                 <button type="button" class="layui-btn upload-img">
                   <i class="layui-icon">&#xe67c;</i>上传头像
                 </button>
-                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
+                <img  th:src=" ${session.usersession.avatar_location}" th:width="118px" th:height="118px">
                 <span class="loading"></span>
               </div>
             </div>
@@ -205,16 +205,17 @@ layui.use('form', function () {
             url: url,
             type: "post",
             async: false,
-            data:{"email": email, "name":name,"gender": gender,"address": address,"proflie": proflie},
+            data: {"email": email, "name": name, "gender": gender, "address": address, "proflie": proflie},
             success: function (res) {
                 console.log(res.message);
-                if(res.message == 1) {
-                    layer.msg("修改成功，即将跳转到登录页面",{icon: 6},function () {
-                        location.href = "[[@{/tologin}]]";
-                    });//成功的表情
+                if (res.message == 1) {
+                    layer.msg("修改成功!", {
+                        icon: 6,//成功的表情
+                        time: 1000 //1秒关闭（如果不配置，默认是3秒）
+                    });
                     return;
                 } else {
-                    layer.msg(res.message,{icon: 5});//失败的表情
+                    layer.msg(res.message, {icon: 5});//失败的表情
                     return;
                 }
             }

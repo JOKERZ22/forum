@@ -568,7 +568,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(
     return false;
   });
 
-  //加载特定模块
+  //加载特定版块
   if(layui.cache.page && layui.cache.page !== 'index'){
     var extend = {};
     extend[layui.cache.page] = layui.cache.page;

@@ -11,9 +11,11 @@ import xin.shaonianyou.forum.config.intercepors.LoginIntercepor;
 public class MyWebMvcConfigurerAdapter implements WebMvcConfigurer {
 
 
+    //配置资源映射路径
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/**");
+        registry.addResourceHandler("/avators/**").addResourceLocations("file:D:/ZW/Workspace/upload/");
         WebMvcConfigurer.super.addResourceHandlers(registry);
     }
 
@@ -23,4 +25,6 @@ public class MyWebMvcConfigurerAdapter implements WebMvcConfigurer {
         registration.addPathPatterns("/admin/**");
         registration.excludePathPatterns("/admin/login");
     }
+
+
 }

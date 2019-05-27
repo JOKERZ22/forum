@@ -1,5 +1,5 @@
- 
- 
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -7,13 +7,13 @@
   <title>列表</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="keywords" content="fly,layui,前端社区">
-  <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
+  <meta name="description" content="Fly社区是版块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
   <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
   <link rel="stylesheet" href="/layui/css/layui.css">
   <link rel="stylesheet" href="/css/global.css">
 </head>
 <body>
-
+<form id="formid" method='post'action="/post/search">
 <div class="fly-header layui-bg-black">
   <div class="layui-container">
     <a class="fly-logo" href="/">
@@ -21,10 +21,10 @@
     </a>
     <ul class="layui-nav fly-nav layui-hide-xs">
       <li class="layui-nav-item layui-this" th:each="m : ${session.moduleList}">
-        <a th:href="@{/post/module/{moduleid}(moduleid=${m.id})}" th:text="${m.display_name}"><i class="iconfont icon-jiaoliu"></i></a>
+        <a th:onclick=" 'javascript:postSearch(this,'+${m.id}+',null,null,null)'" th:text="${m.display_name}"><i class="iconfont icon-jiaoliu"></i></a>
       </li>
     </ul>
-    
+
     <ul class="layui-nav fly-nav-user">
 
       <!-- 未登录的状态 -->
@@ -45,7 +45,7 @@
         <li class="layui-nav-item">
           <a class="fly-nav-avatar" href="javascript:;">
             <cite class="layui-hide-xs" th:text="${session.usersession.name}"></cite>
-            <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
+            <img th:src="${session.usersession.avatar_location}" th:width="118px" th:height="118px">
           </a>
           <dl class="layui-nav-child">
             <dd><a th:href="@{/touserset}"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
@@ -64,13 +64,13 @@
   <div class="layui-container">
     <ul class="layui-clear">
       <li th:each="n : ${session.categoryList}">
-        <a th:href="@{/post/category/{categoryid}(categoryid=${n.id})}" th:text="${n.display_name}"></a>
+        <a th:onclick=" 'javascript:postSearch(this,null,'+${n.id}+',null,null)'" th:text="${n.display_name}"></a>
       </li>
       <!-- 用户登录后显示 -->
 
       <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block" th:if="${session.usersession} != null" ><span class="fly-mid"></span></li>
       <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block" th:if="${session.usersession} != null" ><a th:href="@{/user/userindex}">我发表的贴</a></li>
-      <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block" th:if="${session.usersession} != null" ><a href="user/index.html#collection">我收藏的贴</a></li>
+     <!-- <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block" th:if="${session.usersession} != null" ><a href="user/index.html#collection">我收藏的贴</a></li>-->
     </ul>
 
     <div class="fly-column-right layui-hide-xs" th:if="${session.usersession} != null" >
@@ -83,66 +83,75 @@
   <div class="layui-row layui-col-space15">
     <div class="layui-col-md8">
       <div class="fly-panel" style="margin-bottom: 0;">
-        
+
         <div class="fly-panel-title fly-filter">
-          <a href="" class="layui-this">综合</a>
+          <!--<a href="" class="layui-this">综合</a>
           <span class="fly-mid"></span>
           <a href="">未结</a>
           <span class="fly-mid"></span>
-          <a href="">已结</a>
-          <span class="fly-mid"></span>
-          <a href="">精华</a>
+          <a href="">已结</a>-->
+          <!--<span class="fly-mid"></span>-->
+          ITHOME欢迎您！
           <span class="fly-filter-right layui-hide-xs">
-            <a href="" class="layui-this">按最新</a>
+            <a th:onclick=" 'javascript:postSearch(this,null,null,1,null)'">按最新</a>
             <span class="fly-mid"></span>
-            <a href="">按热议</a>
+            <a  th:onclick=" 'javascript:postSearch(this,null,null,null,1)'">按热议</a>
           </span>
         </div>
 
         <ul class="fly-list">
-          <div th:if="${postListByCategory.size()>0}">
-            <li th:each="a:${postListByCategory}">
+          <div th:if="${indexPostUserList.size()>0}">
+            <li th:each="a:${indexPostUserList}">
               <a th:href="@{/user/userhome/{userid}(userid=${a.user_id})}" class="fly-avatar">
-                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
+                <img th:src="${a.avatar_location}" th:width="118px" th:height="118px">
               </a>
               <h2>
-                <a class="layui-badge" th:text="${a.category_id}"></a>
-                <a th:href="@{/post/postdetail/{postid}(postid=${a.id})}" th:text="${a.title}"></a>
+                <a class="layui-badge" th:text="${a.category_name}"></a>
+                <a th:href="@{/post/postdetail/{postid}(postid=${a.post_id})}" th:text="${a.title}"></a>
               </h2>
               <div class="fly-list-info">
                 <a th:href="@{/user/userhome/{userid}(userid=${a.user_id})}" link>
-                  <cite th:text="${a.id}"></cite>
+                  <cite th:text="${a.user_name}"></cite>
                 </a>
-                <span th:text="${a.date_created}"></span>
+                <span th:text="${#dates.format(a.date_created,'yyyy-MM-dd HH:mm:ss')}"></span>
                 <span class="fly-list-nums">
                 <i class="iconfont icon-pinglun1" title="回答" th:text="${a.comment_count}"></i>
               </span>
               </div>
             </li>
+            <div style="text-align: center">
+              <!--分页-->
+              <div  id="page_container">
+               <!-- <span class="laypage-curr">1</span>
+                <a href="/jie/page/2/">2</a>
+                <a href="/jie/page/3/">3</a>
+                <a href="/jie/page/4/">4</a>
+                <a href="/jie/page/5/">5</a>
+                <span>…</span>
+                <a href="/jie/page/148/" class="laypage-last" title="尾页">尾页</a>
+                <a href="/jie/page/2/" class="laypage-next">下一页</a>-->
+              </div>
+            </div>
           </div>
         </ul>
 
-        <div th:if="${postListByCategory.size()==0}">
+        <div th:if="${indexPostUserList.size()==0}">
           <div class="fly-none">暂无数据</div>
-        </div>
-    
-        <div style="text-align: center">
-          <div class="laypage-main"><span class="laypage-curr">1</span><a href="/jie/page/2/">2</a><a href="/jie/page/3/">3</a><a href="/jie/page/4/">4</a><a href="/jie/page/5/">5</a><span>…</span><a href="/jie/page/148/" class="laypage-last" title="尾页">尾页</a><a href="/jie/page/2/" class="laypage-next">下一页</a></div>
         </div>
 
       </div>
     </div>
     <div class="layui-col-md4">
-      <dl class="fly-panel fly-list-one">
+      <!--<dl class="fly-panel fly-list-one">
         <dt class="fly-panel-title">本周热议</dt>
         <dd th:if="${weekHotPostList.size()>0}" th:each="b:${weekHotPostList}">
           <a th:href="@{/post/postdetail/{postid}(postid=${b.id})}" th:text="${b.title}"></a>
           <span><i class="iconfont icon-pinglun1" th:text="${b.comment_count}"></i></span>
         </dd>
 
-        <!-- 无数据时 -->
+        &lt;!&ndash; 无数据时 &ndash;&gt;
         <div class="fly-none" th:if="${weekHotPostList.size() == 0}">暂无数据</div>
-      </dl>
+      </dl>-->
 
       <div class="fly-panel">
         <div class="fly-panel-title">
@@ -152,7 +161,7 @@
           <a href="" target="_blank" class="fly-zanzhu" style="background-color: #393D49;">虚席以待</a>
         </div>
       </div>
-      
+
       <div class="fly-panel fly-link">
         <h3 class="fly-panel-title">友情链接</h3>
         <dl class="fly-panel-main">
@@ -167,26 +176,73 @@
     </div>
   </div>
 </div>
-
 <div class="fly-footer">  <p><a href="http://www.shaonianyou.xin/" target="_blank">ITHOME</a> 2019 &copy; <a href="http://www.shaonianyou.xin/" target="_blank">shaonianyou.xin</a></p></div>
-
+  <input type="hidden" id="tmodule" name="tmodule" value="" th:value="${tmodule}">
+  <input type="hidden" id="tcategory" name="tcategory" value="" th:value="${tcategory}">
+  <input type="hidden" id="tlatest" name="tlatest" value="" th:value="${tlatest}">
+  <input type="hidden" id="thot" name="thot" value="" th:value="${thot}">
+</form>
 <script src="/layui/layui.js"></script>
 <script>
-layui.cache.page = 'jie';
-layui.cache.user = {
-  username: '游客'
-  ,uid: -1
-  ,avatar: '/images/avatar/00.jpg'
-  ,experience: 83
-  ,sex: '男'
-};
-layui.config({
-  version: "3.0.0"
-  ,base: '/mods/'
-}).extend({
-  fly: 'index'
-}).use('fly');
+    layui.cache.page = 'jie';
+    layui.cache.user = {
+        username: '游客'
+        ,uid: -1
+        ,avatar: '/images/avatar/00.jpg'
+        ,experience: 83
+        ,sex: '男'
+    };
+    layui.config({
+        version: "3.0.0"
+        ,base: '/mods/'
+    }).extend({
+        fly: 'index'
+    }).use('fly');
+</script>
+<script>
+    function postSearch(obj, moduleid, categoryid, latest, hot) {
+
+        if (moduleid != null && moduleid != '') {
+            $('#tmodule').val(moduleid);
+            $(obj).addClass('layui-this');
+        }
+        if (categoryid != null && categoryid != '') {
+            $('#tcategory').val(categoryid);
+            $(obj).addClass('layui-this');
+        }
+        if (latest != null && latest != '') {
+            $('#tlatest').val(1);
+            $('#thot').val(0);
+            $(obj).addClass('layui-this');
+            $(obj).parents("span").find("a").eq(1).removeClass('layui-this');
+        }
+        if (hot != null && hot != '') {
+            $('#thot').val(1);
+            $('#tlatest').val(0);
+            $(obj).addClass('layui-this');
+            $(obj).parents("span").find("a").eq(0).removeClass('layui-this');
+        }
+
+        var url = "[[@{/post/search}]]";
+        var tmodule = $("input[name=tmodule]").val();
+        var tcategory = $("input[name=tcategory]").val();
+        var tlatest = $("input[name=tlatest]").val();
+        var thot = $("input[name=thot]").val();
+
+        document.getElementById("formid").submit();
+    }
 </script>
 
+<!--<script>
+    layui.use('laypage', function(){
+        var laypage = layui.laypage;
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'page_container' //注意，这里是 ID，不用加 # 号
+            ,count: 50 //数据总数，从服务端得到
+        });
+    });
+</script>-->
 </body>
 </html>

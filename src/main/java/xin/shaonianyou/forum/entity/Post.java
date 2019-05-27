@@ -9,7 +9,7 @@ public class Post implements Serializable {
     private String body;        //帖子内容
     private Date date_created;  //发帖日期
     private long user_id;       //发帖人
-    private long module_id;     //模块ID
+    private long module_id;     //版块ID
     private long category_id;    //分类ID
     private long comment_count;  //回复统计
     private long hit_count;      //点赞统计

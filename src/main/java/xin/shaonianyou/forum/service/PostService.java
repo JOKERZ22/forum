@@ -2,6 +2,7 @@ package xin.shaonianyou.forum.service;
 
 import xin.shaonianyou.forum.entity.Post;
 import xin.shaonianyou.forum.entity.User;
+import xin.shaonianyou.forum.entity.vo.PostSearch;
 import xin.shaonianyou.forum.entity.vo.PostUser;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface PostService {
 
     public List<Post> selectAll();
 
-    public List<Post> selectByModule(long moduleid);
+    public List<PostUser> selectByModule(long moduleid);
 
     public List<Post> selectByCategory(long categoryid);
 
@@ -27,5 +28,7 @@ public interface PostService {
     public List<PostUser> selectIndex();
 
     public long postCount();
+
+    public List<PostUser> postSearch(PostSearch postSearch);
 
 }

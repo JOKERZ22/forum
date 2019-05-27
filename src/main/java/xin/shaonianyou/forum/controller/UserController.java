@@ -12,6 +12,7 @@ import xin.shaonianyou.forum.service.PostService;
 import xin.shaonianyou.forum.service.UserService;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,8 +61,6 @@ public class UserController {
         Post post = new Post();
 
         post.setUser_id(userid);
-        //分类-‘提问’数据库中为1
-        post.setCategory_id(1);
 
         //查询最近提问列表
         List<Post> questionPostList = postService.selectByPost(post);
@@ -97,7 +96,6 @@ public class UserController {
     }
 
     //修改用户
-
     @PostMapping("/update")
     @ResponseBody
     public Map<String, String> update(User newuser, HttpSession session) {
@@ -112,7 +110,8 @@ public class UserController {
 
         //修改成功则清空session
         if (resultMap.get("message").equals("1")) {
-            session.invalidate();
+            User updateuser = userService.selectById(usersession.getId());
+            session.setAttribute("usersession",updateuser);
         }
 
         return resultMap;
@@ -136,4 +135,25 @@ public class UserController {
         return resultMap;
     }
 
+    //修改用户头像
+    @PostMapping("/avator")
+    @ResponseBody
+    public Map<String, String> updateAvator(String avatar,HttpSession session){
+
+        Map<String, String> resultMap = new HashMap<String, String>();
+        User usersession =(User) session.getAttribute("usersession");
+        if(avatar == null){
+            resultMap.put("message","上传失败！");
+        }else {
+            long l = userService.updateAvator(avatar, usersession.getId());
+            if(l<1){
+                resultMap.put("message","修改失败！");
+            }else {
+                resultMap.put("message","1");
+                User newuser = userService.selectById(usersession.getId());
+                session.setAttribute("usersession",newuser);
+            }
+        }
+        return resultMap;
+    }
 }

@@ -28,4 +28,12 @@ public interface UserService {
     public List<User> selectAll();
 
     public List<User> selectUserBySection(String start, String end, String username);
+
+    public long updateUserStatus(long status,long userid);
+
+    public long deleteUser(long userid);
+
+    public long updateUserAdmin(long adminid,long userid);
+
+    public long updateAvator(String url,long userid);
 }
